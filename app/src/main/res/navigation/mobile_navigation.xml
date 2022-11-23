@@ -18,8 +18,8 @@
         tools:layout="@layout/fragment_columnas" />
 
     <fragment
-        android:id="@+id/nav_slideshow"
-        android:name="es.unex.parsiapp.ui.slideshow.SlideshowFragment"
+        android:id="@+id/nav_gallery"
+        android:name="es.unex.parsiapp.ui.gallery.FolderFragment"
         android:label="@string/menu_posts_guardados"
-        tools:layout="@layout/fragment_slideshow" />
+        tools:layout="@layout/fragment_folder" />
 </navigation>

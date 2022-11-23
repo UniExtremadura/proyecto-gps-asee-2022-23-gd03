@@ -1,16 +1,15 @@
-package es.unex.parsiapp.ui.slideshow;
+package es.unex.parsiapp.ui.gallery;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-public class SlideshowViewModel extends ViewModel {
-
+public class FolderViewModel extends ViewModel {
     private final MutableLiveData<String> mText;
 
-    public SlideshowViewModel() {
+    public FolderViewModel() {
         mText = new MutableLiveData<>();
-        mText.setValue("This is slideshow fragment");
+        mText.setValue("This is folder fragment");
     }
 
     public LiveData<String> getText() {
