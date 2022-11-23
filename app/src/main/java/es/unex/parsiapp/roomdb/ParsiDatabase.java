@@ -6,7 +6,9 @@ import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 
-@Database(entities = {}, version = 1)
+import es.unex.parsiapp.model.Usuario;
+
+@Database(entities = {Usuario.class}, version = 1)
 public abstract class ParsiDatabase extends RoomDatabase {
     private static ParsiDatabase instance;
 
@@ -17,4 +19,5 @@ public abstract class ParsiDatabase extends RoomDatabase {
         }
         return instance;
     }
+    public abstract UsuarioDao getUsuarioDao();
 }
