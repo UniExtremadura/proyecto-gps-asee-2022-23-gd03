@@ -12,6 +12,12 @@
         tools:layout="@layout/fragment_home" />
 
     <fragment
+        android:id="@+id/nav_columnas"
+        android:name="es.unex.parsiapp.ui.columns.ColumnasFragment"
+        android:label="@string/menu_columnas"
+        tools:layout="@layout/fragment_columnas" />
+
+    <fragment
         android:id="@+id/nav_gallery"
         android:name="es.unex.parsiapp.ui.gallery.FolderFragment"
         android:label="@string/menu_posts_guardados"

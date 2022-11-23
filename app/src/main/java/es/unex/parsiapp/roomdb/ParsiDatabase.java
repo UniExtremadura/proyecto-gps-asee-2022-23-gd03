@@ -7,9 +7,11 @@ import androidx.room.Room;
 import androidx.room.RoomDatabase;
 
 import es.unex.parsiapp.model.Carpeta;
+import es.unex.parsiapp.model.Columna;
 import es.unex.parsiapp.model.Post;
+import es.unex.parsiapp.model.Usuario;
 
-@Database(entities = {Carpeta.class, Post.class}, version = 2)
+@Database(entities = {Carpeta.class, Post.class, Columna.class, Usuario.class}, version = 5)
 public abstract class ParsiDatabase extends RoomDatabase {
     private static ParsiDatabase instance;
 
@@ -22,5 +24,7 @@ public abstract class ParsiDatabase extends RoomDatabase {
     }
 
     public abstract CarpetaDao getCarpetaDao();
+    public abstract ColumnaDao getColumnaDao();
     public abstract PostDao getPostDao();
+    public abstract UsuarioDao getUsuarioDao();
 }

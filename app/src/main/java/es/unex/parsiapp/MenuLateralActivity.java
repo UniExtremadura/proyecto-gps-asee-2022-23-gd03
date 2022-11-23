@@ -64,4 +64,14 @@ public class MenuLateralActivity extends AppCompatActivity {
         // Se inicia la actividad CreateFolderActivity
         startActivity(intent);
     }
+
+    /* Metodos añadidos*/
+    // Accion al pulsar el boton de "crear columna"
+    public void onCreateColumnButton(View v){
+        Intent intent = new Intent(MenuLateralActivity.this, CreateColumnActivity.class);
+        // Se agrega el extra "create". Si es true, la columna se crea. Si es false, la columna se edita.
+        intent.putExtra("create", true);
+        // Se inicia la actividad CreateColumnActivity
+        startActivity(intent);
+    }
 }

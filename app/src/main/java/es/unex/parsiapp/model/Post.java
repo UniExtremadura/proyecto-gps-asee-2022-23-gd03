@@ -99,14 +99,6 @@ public class Post implements Serializable {
         // hacer un intent implícito
     }
 
-    /**
-     * Método que tiene el propio post para guardarse en la carpeta que se indique.
-     * @param carpeta La carpeta en la que se quiere guardar el Post
-     */
-    public void guardarEnCarpeta(@NonNull Carpeta carpeta){
-        carpeta.anadirPost(this);
-    }
-
     public String toString(){
         return "POST - ID: " + this.id + " - AUTOR ID: " + this.authorId + " - USERNAME: " + this.authorUsername + " - CONTENIDO: " + this.contenido;
     }
