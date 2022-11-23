@@ -85,8 +85,13 @@ public class HomeFragment extends Fragment {
                     } else if (c.getApiCallType() == Columna.ApiCallType.USER){
                         tweetsFromUser(twitterService, query, root);
                     }
-                    TextView t = (TextView) root.findViewById(R.id.addColumn);
-                    t.setVisibility(View.INVISIBLE);
+                    AppExecutors.getInstance().mainThread().execute(new Runnable() {
+                        @Override
+                        public void run() {
+                            TextView t = (TextView) root.findViewById(R.id.addColumn);
+                            t.setVisibility(View.INVISIBLE);
+                        }
+                    });
                 }
             }
         });

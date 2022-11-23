@@ -8,8 +8,9 @@ import androidx.room.RoomDatabase;
 
 import es.unex.parsiapp.model.Columna;
 import es.unex.parsiapp.model.Post;
+import es.unex.parsiapp.model.Usuario;
 
-@Database(entities = {Columna.class, Post.class}, version = 3)
+@Database(entities = {Columna.class, Post.class, Usuario.class}, version = 4)
 public abstract class ParsiDatabase extends RoomDatabase {
     private static ParsiDatabase instance;
 
@@ -22,4 +23,5 @@ public abstract class ParsiDatabase extends RoomDatabase {
     }
     public abstract ColumnaDao getColumnaDao();
     public abstract PostDao getPostDao();
+    public abstract UsuarioDao getUsuarioDao();
 }
