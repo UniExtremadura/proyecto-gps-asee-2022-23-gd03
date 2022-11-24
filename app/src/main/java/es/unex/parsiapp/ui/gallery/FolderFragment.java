@@ -18,6 +18,7 @@ import es.unex.parsiapp.AppExecutors;
 import es.unex.parsiapp.ListAdapterFolder;
 import es.unex.parsiapp.R;
 import es.unex.parsiapp.databinding.FragmentFolderBinding;
+import es.unex.parsiapp.folderContentActivity;
 import es.unex.parsiapp.model.Carpeta;
 import es.unex.parsiapp.roomdb.ParsiDatabase;
 
@@ -60,8 +61,12 @@ public class FolderFragment extends Fragment {
                 listCarpeta = database.getCarpetaDao().getAll();
 
                 if(listCarpeta != null) {
-                    ListAdapterFolder listAdapter = new ListAdapterFolder(listCarpeta,root.getContext());
-                    // La UI debe de ejecutarse en un mainThread (si no, peta)
+                    ListAdapterFolder listAdapter = new ListAdapterFolder(listCarpeta,root.getContext() , new ListAdapterFolder.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(Carpeta item) {
+                            moveToFolderContent(item, root);
+                        }
+                    });                    // La UI debe de ejecutarse en un mainThread (si no, peta)
                     AppExecutors.getInstance().mainThread().execute(new Runnable() {
                         @Override
                         public void run() {
@@ -74,5 +79,11 @@ public class FolderFragment extends Fragment {
                 }
             }
         });
+    }
+
+    public void moveToFolderContent(Carpeta item, View root){
+        Intent intent = new Intent(root.getContext(), folderContentActivity.class);
+        intent.putExtra("folderContent", item);
+        startActivity(intent);
     }
 }

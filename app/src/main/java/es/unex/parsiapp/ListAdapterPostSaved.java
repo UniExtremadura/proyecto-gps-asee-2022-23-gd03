@@ -17,17 +17,17 @@ import java.util.List;
 
 import es.unex.parsiapp.model.Post;
 
-public class ListAdapterPost extends RecyclerView.Adapter<ListAdapterPost.ViewHolder> {
+public class ListAdapterPostSaved extends RecyclerView.Adapter<ListAdapterPostSaved.ViewHolder> {
     private List<Post> mData;
     private LayoutInflater mInlfater;
     private Context context;
-    final ListAdapterPost.OnItemClickListener listener;
+    final OnItemClickListener listener;
 
     public interface OnItemClickListener {
         void onItemClick(Post item);
     }
 
-    public ListAdapterPost(List<Post> postList, Context context, ListAdapterPost.OnItemClickListener listener){
+    public ListAdapterPostSaved(List<Post> postList, Context context, OnItemClickListener listener){
         this.mInlfater = LayoutInflater.from(context);
         this.context = context;
         this.mData = postList;
@@ -40,13 +40,13 @@ public class ListAdapterPost extends RecyclerView.Adapter<ListAdapterPost.ViewHo
 
     //Establece el diseño que tiene que tener cada post al mostrarse
     @Override
-    public ListAdapterPost.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType){
-        View view = mInlfater.inflate(R.layout.list_tweet, null);
-        return new ListAdapterPost.ViewHolder(view);
+    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType){
+        View view = mInlfater.inflate(R.layout.list_saved_tweet, null);
+        return new ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull final ListAdapterPost.ViewHolder holder, final int position) {
+    public void onBindViewHolder(@NonNull final ViewHolder holder, final int position) {
         holder.bindData(mData.get(position));
     }
 

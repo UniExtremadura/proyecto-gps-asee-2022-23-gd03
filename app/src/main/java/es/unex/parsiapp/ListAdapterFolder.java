@@ -18,12 +18,17 @@ public class ListAdapterFolder extends RecyclerView.Adapter<ListAdapterFolder.Vi
     private List<Carpeta> mData;
     private LayoutInflater mInlfater;
     private Context context;
+    final ListAdapterFolder.OnItemClickListener listener;
 
+    public interface OnItemClickListener {
+        void onItemClick(Carpeta item);
+    }
 
-    public ListAdapterFolder(List<Carpeta> folderList, Context context){
+    public ListAdapterFolder(List<Carpeta> folderList, Context context, ListAdapterFolder.OnItemClickListener listener){
         this.mInlfater = LayoutInflater.from(context);
         this.context = context;
         this.mData = folderList;
+        this.listener = listener;
     }
 
     //Obtiene el numero de carpeta que hay en una lista
@@ -32,13 +37,13 @@ public class ListAdapterFolder extends RecyclerView.Adapter<ListAdapterFolder.Vi
 
     //Establece el diseño que tiene que tener cada carpeta al mostrarse
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType){
+    public ListAdapterFolder.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType){
         View view = mInlfater.inflate(R.layout.list_folder, null);
-        return new ViewHolder(view);
+        return new ListAdapterFolder.ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull final ViewHolder holder, final int position) {
+    public void onBindViewHolder(@NonNull final ListAdapterFolder.ViewHolder holder, final int position) {
         holder.bindData(mData.get(position));
     }
 
@@ -69,6 +74,12 @@ public class ListAdapterFolder extends RecyclerView.Adapter<ListAdapterFolder.Vi
 
             // Establece el ID de la carpeta en el boton de borrar
             bRemove.setTag(R.string.idDelete, item.getIdDb());
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    listener.onItemClick(item);
+                }
+            });
         }
     }
 }
