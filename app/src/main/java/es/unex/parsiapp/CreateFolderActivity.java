@@ -1,11 +1,13 @@
 package es.unex.parsiapp;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-
-import androidx.appcompat.app.AppCompatActivity;
 
 import es.unex.parsiapp.model.Carpeta;
 import es.unex.parsiapp.roomdb.ParsiDatabase;
@@ -63,6 +65,7 @@ public class CreateFolderActivity extends AppCompatActivity {
         if(folderName.length() > 0) {
             // Crea la carpeta
             if(editedFolder != null){
+                editFolder(folderName);
             } else {
                 createFolder(folderName);
             }
@@ -86,4 +89,17 @@ public class CreateFolderActivity extends AppCompatActivity {
         });
     }
 
+    // Edita una carpeta (le asigna un nuevo nombre)
+    public void editFolder(String folderName){
+        AppExecutors.getInstance().diskIO().execute(new Runnable() {
+            @Override
+            public void run() {
+                // Declaracion de la instancia de la BD
+                ParsiDatabase database = ParsiDatabase.getInstance(CreateFolderActivity.this);
+                // Cambio de nombre y update en BD
+                editedFolder.setNombre(folderName);
+                database.getCarpetaDao().update(editedFolder);
+            }
+        });
+    }
 }
