@@ -66,7 +66,8 @@ public class FolderFragment extends Fragment {
                         public void onItemClick(Carpeta item) {
                             moveToFolderContent(item, root);
                         }
-                    });                    // La UI debe de ejecutarse en un mainThread (si no, peta)
+                    });
+                    // La UI debe de ejecutarse en un mainThread (si no, peta)
                     AppExecutors.getInstance().mainThread().execute(new Runnable() {
                         @Override
                         public void run() {

@@ -99,7 +99,6 @@ public class folderContentActivity extends AppCompatActivity {
             }
         });
     }
-
     public void detailPostFromFolder(Post item){
         Intent intent = new Intent(folderContentActivity.this, tweetDetailsActivity.class);
         intent.putExtra("Post", item);

@@ -2,16 +2,20 @@ package es.unex.parsiapp;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Menu;
 import android.widget.ImageButton;
 import android.widget.Toast;
+import android.widget.Switch;
+import android.widget.Button;
 
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
 
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -83,6 +87,57 @@ public class MenuLateralActivity extends AppCompatActivity {
         // Se agrega el extra "create". Si es true, la columna se crea. Si es false, la columna se edita.
         intent.putExtra("create", true);
         // Se inicia la actividad CreateColumnActivity
+        startActivity(intent);
+    }
+
+    public void nightmode(View v) {
+
+        @SuppressLint("UseSwitchCompatOrMaterialCode") Switch swi = findViewById(R.id.switchNightmode);
+        if(swi.isChecked()) {
+            getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        }
+        else {
+            getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        }
+    }
+
+    // Accion al pulsar el boton de "borrar" tanto en una carpeta como en una columna
+    public void onDeleteButton(View v){
+        String deletedElement = null;
+
+        // Obtencion del nombre e ID de la carpeta/columna
+        Button b = (Button) v;
+        long id = (long) b.getTag(R.string.idDelete);
+
+        switch(v.getId())
+        {
+            case R.id.deleteFolder:
+                deletedElement = "Folder";
+                break;
+            case R.id.deleteColumn:
+                deletedElement = "Column";
+                break;
+        }
+        // Se pasan el ID y el elemento a borrar como Extras en el Intent
+        Intent intent = new Intent(MenuLateralActivity.this, DeleteActivity.class);
+        intent.putExtra("id", id);
+        intent.putExtra("deletedElement", deletedElement);
+
+        // Se inicia la actividad DeleteActivity
+        startActivity(intent);
+    }
+
+    // Accion al pulsar el boton de "editar carpeta"
+    public void onEditFolderButton(View v){
+        // Obtencion del nombre e ID de carpeta
+        Button b = (Button) v;
+        long idFolder = (long) b.getTag(R.string.idFolder);
+
+        // Se pasan el nombre e ID de la carpeta como Extras en el Intent
+        Intent intent = new Intent(MenuLateralActivity.this, CreateFolderActivity.class);
+        intent.putExtra("idfolder", idFolder);
+        intent.putExtra("create", false);
+        // Se inicia la actividad CreateFolderActivity
         startActivity(intent);
     }
 
