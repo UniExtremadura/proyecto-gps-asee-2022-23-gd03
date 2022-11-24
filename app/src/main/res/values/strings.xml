@@ -2,13 +2,67 @@
     <string name="app_name">Parsi App</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="nav_header_title">[NOMBRE]</string>
+    <string name="nav_header_title">Parsi</string>
     <string name="nav_header_subtitle">[@username]</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
 
 
-    <string name="menu_home">Home</string>
-    <string name="menu_gallery">Gallery</string>
-    <string name="menu_slideshow">Slideshow</string>
+    <string name="menu_columnas">Columnas</string>
+    <string name="menu_tendencias">Conceptos más hablados</string>
+    <string name="menu_posts_guardados">Carpetas</string>
+    <string name="menu_settings">Configuración</string>
+    <string name="nombre">Nombre</string>
+    <string name="nombreusuario">\@NombreUsuario</string>
+    <string name="separator">·</string>
+    <string name="tiempo">Tiempo</string>
+    <string name="descriptionTweet">Tweet</string>
+    <string name="compartir">Compartir</string>
+    <string name="guardartweet">guardarTweet</string>
+    <string name="nombreCarpeta">Carpeta</string>
+    <string name="nombreColumna">Columna</string>
+    <string name="editarCarpeta">Editar</string>
+    <string name="borrarCarpeta">Borrar</string>
+    <string name="idSave">1</string>
+    <string name="idSaveDb">2</string>
+    <string name="idShare">1</string>
+    <string name="idEdit">1</string>
+    <string name="idFolder">2</string>
+    <string name="idDelete">1</string>
+    <string name="idActual">1</string>
+    <string name="nightmode">Seleccione el tema de la aplicación</string>
+    <string name="max_posts">Seleccione la cantidad de posts a mostrar</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <!-- Preference Titles -->
+    <string name="settings_general">General</string>
+    <string name="settings_ayuda">Ayuda</string>
+
+    <!-- Messages Preferences -->
+    <string name="username">Nombre de usuario</string>
+    <string name="idioma">Seleccione el idioma</string>
+    <string name="notifications">Notificaciones</string>
+
+    <!-- Sync Preferences -->
+    <string name="sync_title">Sync email periodically</string>
+    <string name="attachment_title">Download incoming attachments</string>
+    <string name="attachment_summary_on">Automatically download attachments for incoming emails
+    </string>
+    <string name="attachment_summary_off">Only download attachments when manually requested</string>
+    <string name="menu_home">Inicio</string>
+    <string name="addFolder">+</string>
+    <string name="title_activity_login">LoginActivity</string>
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password</string>
+    <string name="action_sign_in">Sign in or register</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="welcome">"Welcome !"</string>
+    <string name="invalid_username">Not a valid username</string>
+    <string name="invalid_password">Password must be >5 characters</string>
+    <string name="login_failed">"Login failed"</string>
+    <string name="addColunm">Crea una columna para ver posts</string>
+    <string name="modo_oscuro">Modo oscuro</string>
+    <string name="configuraci_n">Configuración</string>
+    <string name="m_s_opciones">Más opciones</string>
+    <string name="cerrar_sesi_n">Cerrar sesión</string>
 </resources>
