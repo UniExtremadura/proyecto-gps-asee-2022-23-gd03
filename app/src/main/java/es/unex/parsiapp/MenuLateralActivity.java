@@ -1,10 +1,14 @@
 package es.unex.parsiapp;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Menu;
+import android.widget.ImageButton;
+import android.widget.Toast;
 import android.widget.Switch;
 import android.widget.Button;
 
@@ -19,12 +23,19 @@ import androidx.navigation.ui.NavigationUI;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.util.List;
+
 import es.unex.parsiapp.databinding.ActivityMenuLateralBinding;
+import es.unex.parsiapp.model.Carpeta;
+import es.unex.parsiapp.model.Post;
+import es.unex.parsiapp.roomdb.ParsiDatabase;
 
 public class MenuLateralActivity extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
     private ActivityMenuLateralBinding binding;
+
+    ImageButton b;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -128,5 +139,89 @@ public class MenuLateralActivity extends AppCompatActivity {
         intent.putExtra("create", false);
         // Se inicia la actividad CreateFolderActivity
         startActivity(intent);
+    }
+
+    // Accion al pulsar el boton de "compartir post"
+    public void compartirPost(View v){
+        // Accion de compartir
+        Intent intent = new Intent();
+        intent.setAction(Intent.ACTION_SEND);
+        intent.putExtra(Intent.EXTRA_TEXT, "Poner aqui enlace del tweet");
+        intent.setType("text/plain");
+
+        Intent shareIntent = Intent.createChooser(intent, null);
+        startActivity(shareIntent);
+    }
+
+    // Accion al pulsar el boton de "guardar post"
+    public void addPostToCarpeta(View v){
+
+        final long[] folder_id = {1};
+
+        AppExecutors.getInstance().diskIO().execute(new Runnable() {
+            @Override
+            public void run() {
+
+                // Declaracion de la instancia de la BD
+                ParsiDatabase database = ParsiDatabase.getInstance(MenuLateralActivity.this);
+                List<Carpeta> folders = database.getCarpetaDao().getAll();
+                String[] nameFolders = new String[folders.size()];
+
+                for(int i = 0; i < folders.size(); i++) {
+                    nameFolders[i] = folders.get(i).getNombre();
+                }
+
+                b = (ImageButton) v;
+                AlertDialog.Builder popupFolders = new AlertDialog.Builder(MenuLateralActivity.this);
+
+                if(folders.size()>0){
+                    popupFolders.setTitle("Seleccione una carpeta").setItems(nameFolders, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            String data = "Se ha guardado en la carpeta " + folders.get(which).getNombre();
+                            Toast.makeText(MenuLateralActivity.this, data, Toast.LENGTH_SHORT).show();
+                            folder_id[0] = folders.get(which).getIdDb();
+
+
+                            // Obtencion del ID del post
+                            ImageButton imgButton = (ImageButton) v;
+                            String post_id = (String) imgButton.getTag(R.string.idSave);
+                            // Insertar post
+                            Post p = new Post(post_id, folder_id[0]);
+                            AppExecutors.getInstance().diskIO().execute(new Runnable() {
+                                @Override
+                                public void run() {
+                                    database.getPostDao().insert(p);
+                                }
+                            });
+                        }
+                    });
+                }else{
+                    popupFolders.setTitle("Crea una nueva carpeta")
+                            .setPositiveButton("CREAR CARPETA", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    Intent intent = new Intent(MenuLateralActivity.this, CreateFolderActivity.class);
+                                    startActivity(intent);
+                                }
+                            })
+                            .setNegativeButton("CANCELAR", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+
+                                }
+                            });
+                }
+
+
+                AppExecutors.getInstance().mainThread().execute(new Runnable() {
+                    @Override
+                    public void run() {
+                        AlertDialog alertDialog = popupFolders.create();
+                        alertDialog.show();
+                    }
+                });
+            }
+        });
     }
 }

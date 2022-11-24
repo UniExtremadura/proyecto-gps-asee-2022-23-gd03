@@ -99,12 +99,22 @@ public class folderContentActivity extends AppCompatActivity {
             }
         });
     }
-
-
     public void detailPostFromFolder(Post item){
         Intent intent = new Intent(folderContentActivity.this, tweetDetailsActivity.class);
         intent.putExtra("Post", item);
         intent.putExtra("Saved", 1);
         startActivity(intent);
+    }
+
+    // Accion al pulsar el boton de "compartir post"
+    public void compartirPost(View v){
+        // Accion de compartir
+        Intent intent = new Intent();
+        intent.setAction(Intent.ACTION_SEND);
+        intent.putExtra(Intent.EXTRA_TEXT, "Poner aqui enlace del tweet");
+        intent.setType("text/plain");
+
+        Intent shareIntent = Intent.createChooser(intent, null);
+        startActivity(shareIntent);
     }
 }

@@ -56,4 +56,15 @@ public class tweetDetailsActivity extends AppCompatActivity {
         }
         save.setTag(R.string.idSave, item.getId());
     }
+
+    public void compartirPost(View v){
+        // Accion de compartir
+        Intent intent = new Intent();
+        intent.setAction(Intent.ACTION_SEND);
+        intent.putExtra(Intent.EXTRA_TEXT, "Poner aqui enlace del tweet");
+        intent.setType("text/plain");
+
+        Intent shareIntent = Intent.createChooser(intent, null);
+        startActivity(shareIntent);
+    }
 }
