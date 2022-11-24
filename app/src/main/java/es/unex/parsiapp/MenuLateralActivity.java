@@ -1,13 +1,16 @@
 package es.unex.parsiapp;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Menu;
+import android.widget.Switch;
 
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
 
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -73,5 +76,16 @@ public class MenuLateralActivity extends AppCompatActivity {
         intent.putExtra("create", true);
         // Se inicia la actividad CreateColumnActivity
         startActivity(intent);
+    }
+
+    public void nightmode(View v) {
+
+        @SuppressLint("UseSwitchCompatOrMaterialCode") Switch swi = findViewById(R.id.switchNightmode);
+        if(swi.isChecked()) {
+            getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        }
+        else {
+            getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        }
     }
 }
