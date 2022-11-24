@@ -41,7 +41,8 @@ public class DeleteActivity extends AppCompatActivity {
                     Carpeta c = database.getCarpetaDao().getFolder(elementId);
                     mensaje = "¿Seguro que quieres borrar la carpeta " + c.getNombre() + "?";
                 }else if (elementTypeToDelete.equals("Column")){
-                    // todo
+                    Columna c = database.getColumnaDao().getColumna(elementId);
+                    mensaje = "¿Seguro que quieres borrar la columna " + c.getNombre() + "?";
                 }
                 AppExecutors.getInstance().mainThread().execute(new Runnable() {
                     @Override
@@ -70,7 +71,20 @@ public class DeleteActivity extends AppCompatActivity {
                     database.getCarpetaDao().deleteFolderByID(elementId);
                     mensaje = "Se ha eliminado la carpeta " + c.getNombre();
                 }else if (elementTypeToDelete.equals("Column")){
-                    // todo
+                    Columna c = database.getColumnaDao().getColumna(elementId);
+                    database.getColumnaDao().deleteColumnaByID(elementId);
+                    mensaje = "Se ha eliminado la columna " + c.getNombre();
+                    if(c.isColumnaActual()){
+                        try {
+                            Columna newActual = database.getColumnaDao().getAll().get(0);
+                            newActual.setColumnaActual(true);
+                            database.getColumnaDao().update(newActual);
+                            mensaje += ". Se ha establecido la columna " + newActual.getNombre() + " como columna actual";
+                        }
+                        catch (Exception e){
+
+                        }
+                    }
                 }
                 AppExecutors.getInstance().mainThread().execute(new Runnable() {
                     @Override
