@@ -75,4 +75,18 @@ public class MenuLateralActivity extends AppCompatActivity {
         // Se inicia la actividad CreateColumnActivity
         startActivity(intent);
     }
+
+    // Accion al pulsar el boton de "editar carpeta"
+    public void onEditFolderButton(View v){
+        // Obtencion del nombre e ID de carpeta
+        Button b = (Button) v;
+        long idFolder = (long) b.getTag(R.string.idFolder);
+
+        // Se pasan el nombre e ID de la carpeta como Extras en el Intent
+        Intent intent = new Intent(MenuLateralActivity.this, CreateFolderActivity.class);
+        intent.putExtra("idfolder", idFolder);
+        intent.putExtra("create", false);
+        // Se inicia la actividad CreateFolderActivity
+        startActivity(intent);
+    }
 }
