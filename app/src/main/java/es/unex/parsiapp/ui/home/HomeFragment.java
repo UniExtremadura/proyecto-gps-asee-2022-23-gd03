@@ -60,6 +60,19 @@ public class HomeFragment extends Fragment {
         // Mostrar tweets
         showTweetsFromColumna(root);
 
+        refresh = (SwipeRefreshLayout) root.findViewById(R.id.swipeRefreshLayout);
+
+        refresh.setColorSchemeResources(R.color.white);
+        refresh.setProgressBackgroundColorSchemeResource(R.color.blueParsi);
+
+        refresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                showTweetsFromColumna(root);
+                refresh.setRefreshing(false);
+            }
+        });
+
         return root;
     }
 
