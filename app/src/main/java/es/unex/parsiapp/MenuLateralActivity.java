@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Menu;
+import android.widget.Button;
 
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
@@ -72,6 +73,20 @@ public class MenuLateralActivity extends AppCompatActivity {
         // Se agrega el extra "create". Si es true, la columna se crea. Si es false, la columna se edita.
         intent.putExtra("create", true);
         // Se inicia la actividad CreateColumnActivity
+        startActivity(intent);
+    }
+
+    // Accion al pulsar el boton de "editar carpeta"
+    public void onEditFolderButton(View v){
+        // Obtencion del nombre e ID de carpeta
+        Button b = (Button) v;
+        long idFolder = (long) b.getTag(R.string.idFolder);
+
+        // Se pasan el nombre e ID de la carpeta como Extras en el Intent
+        Intent intent = new Intent(MenuLateralActivity.this, CreateFolderActivity.class);
+        intent.putExtra("idfolder", idFolder);
+        intent.putExtra("create", false);
+        // Se inicia la actividad CreateFolderActivity
         startActivity(intent);
     }
 }
