@@ -74,4 +74,15 @@ public class MenuLateralActivity extends AppCompatActivity {
         // Se inicia la actividad CreateColumnActivity
         startActivity(intent);
     }
+
+    // Accion al pulsar el boton de "compartir post"
+    public void compartirPost(View v){
+        // Accion de compartir
+        Intent intent = new Intent();
+        intent.setAction(Intent.ACTION_SEND);
+        intent.putExtra(Intent.EXTRA_TEXT, "Poner aqui enlace del tweet");
+        intent.setType("text/plain");
+
+        // Andres pon aqui dos lineas por favor
+    }
 }
