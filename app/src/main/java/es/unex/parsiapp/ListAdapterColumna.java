@@ -19,11 +19,17 @@ public class ListAdapterColumna extends RecyclerView.Adapter<ListAdapterColumna.
     private List<Columna> mData;
     private LayoutInflater mInlfater;
     private Context context;
+    final ListAdapterColumna.OnItemClickListener listener;
 
-    public ListAdapterColumna(List<Columna> columnList, Context context){
+    public interface OnItemClickListener {
+        void onItemClick(Columna item);
+    }
+
+    public ListAdapterColumna(List<Columna> columnList, Context context, ListAdapterColumna.OnItemClickListener listener){
         this.mInlfater = LayoutInflater.from(context);
         this.context = context;
         this.mData = columnList;
+        this.listener = listener;
     }
 
     //Obtiene el numero de columnas que hay en una lista
@@ -32,13 +38,13 @@ public class ListAdapterColumna extends RecyclerView.Adapter<ListAdapterColumna.
 
     //Establece el diseño que tiene que tener cada columna al mostrarse
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType){
+    public ListAdapterColumna.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType){
         View view = mInlfater.inflate(R.layout.list_column, null);
-        return new ViewHolder(view);
+        return new ListAdapterColumna.ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull final ViewHolder holder, final int position) {
+    public void onBindViewHolder(@NonNull final ListAdapterColumna.ViewHolder holder, final int position) {
         holder.bindData(mData.get(position));
     }
 
@@ -71,6 +77,12 @@ public class ListAdapterColumna extends RecyclerView.Adapter<ListAdapterColumna.
                 ImageView imageView = (ImageView) itemView.findViewById(R.id.iconImageView);
                 imageView.setImageResource(R.drawable.ic_baseline_home_24);
             }
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    listener.onItemClick(item);
+                }
+            });
         }
     }
 }

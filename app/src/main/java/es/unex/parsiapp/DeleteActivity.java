@@ -38,7 +38,8 @@ public class DeleteActivity extends AppCompatActivity {
                 // Declaracion de la instancia de la BD
                 ParsiDatabase database = ParsiDatabase.getInstance(DeleteActivity.this);
                 if(elementTypeToDelete.equals("Folder")) {
-
+                    Carpeta c = database.getCarpetaDao().getFolder(elementId);
+                    mensaje = "¿Seguro que quieres borrar la carpeta " + c.getNombre() + "?";
                 }else if (elementTypeToDelete.equals("Column")){
                     Columna c = database.getColumnaDao().getColumna(elementId);
                     mensaje = "¿Seguro que quieres borrar la columna " + c.getNombre() + "?";
@@ -65,7 +66,10 @@ public class DeleteActivity extends AppCompatActivity {
                 // Declaracion de la instancia de la BD
                 ParsiDatabase database = ParsiDatabase.getInstance(DeleteActivity.this);
                 if(elementTypeToDelete.equals("Folder")) {
-
+                    Carpeta c = database.getCarpetaDao().getFolder(elementId);
+                    database.getPostDao().deleteAllPostsFromCarpeta(elementId);
+                    database.getCarpetaDao().deleteFolderByID(elementId);
+                    mensaje = "Se ha eliminado la carpeta " + c.getNombre();
                 }else if (elementTypeToDelete.equals("Column")){
                     Columna c = database.getColumnaDao().getColumna(elementId);
                     database.getColumnaDao().deleteColumnaByID(elementId);
