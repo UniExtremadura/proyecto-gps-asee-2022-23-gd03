@@ -112,7 +112,7 @@ public class MenuLateralActivity extends AppCompatActivity {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             String data = "Se ha guardado en la carpeta " + folders.get(which).getNombre();
-                            // todo ANDRÉS QUITA ESTE COMENTARIO Y PON EL TOAST
+                            Toast.makeText(MenuLateralActivity.this, data, Toast.LENGTH_SHORT).show();
                             folder_id[0] = folders.get(which).getIdDb();
 
 
