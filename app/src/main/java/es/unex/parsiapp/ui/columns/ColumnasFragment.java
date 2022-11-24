@@ -81,7 +81,6 @@ public class ColumnasFragment extends Fragment {
                         }
                     });
                 }
-
             }
         });
     }

@@ -77,7 +77,12 @@ public class ListAdapterColumna extends RecyclerView.Adapter<ListAdapterColumna.
                 ImageView imageView = (ImageView) itemView.findViewById(R.id.iconImageView);
                 imageView.setImageResource(R.drawable.ic_baseline_home_24);
             }
-            // Codigo de andres aqui
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    listener.onItemClick(item);
+                }
+            });
         }
     }
 }
