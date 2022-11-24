@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.Menu;
 import android.widget.Switch;
+import android.widget.Button;
 
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
@@ -87,5 +88,45 @@ public class MenuLateralActivity extends AppCompatActivity {
         else {
             getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         }
+    }
+
+    // Accion al pulsar el boton de "borrar" tanto en una carpeta como en una columna
+    public void onDeleteButton(View v){
+        String deletedElement = null;
+
+        // Obtencion del nombre e ID de la carpeta/columna
+        Button b = (Button) v;
+        long id = (long) b.getTag(R.string.idDelete);
+
+        switch(v.getId())
+        {
+            case R.id.deleteFolder:
+                deletedElement = "Folder";
+                break;
+            case R.id.deleteColumn:
+                deletedElement = "Column";
+                break;
+        }
+        // Se pasan el ID y el elemento a borrar como Extras en el Intent
+        Intent intent = new Intent(MenuLateralActivity.this, DeleteActivity.class);
+        intent.putExtra("id", id);
+        intent.putExtra("deletedElement", deletedElement);
+
+        // Se inicia la actividad DeleteActivity
+        startActivity(intent);
+    }
+
+    // Accion al pulsar el boton de "editar carpeta"
+    public void onEditFolderButton(View v){
+        // Obtencion del nombre e ID de carpeta
+        Button b = (Button) v;
+        long idFolder = (long) b.getTag(R.string.idFolder);
+
+        // Se pasan el nombre e ID de la carpeta como Extras en el Intent
+        Intent intent = new Intent(MenuLateralActivity.this, CreateFolderActivity.class);
+        intent.putExtra("idfolder", idFolder);
+        intent.putExtra("create", false);
+        // Se inicia la actividad CreateFolderActivity
+        startActivity(intent);
     }
 }
