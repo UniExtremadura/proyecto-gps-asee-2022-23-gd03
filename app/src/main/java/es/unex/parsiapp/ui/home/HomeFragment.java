@@ -26,6 +26,7 @@ import es.unex.parsiapp.databinding.FragmentHomeBinding;
 import es.unex.parsiapp.model.Columna;
 import es.unex.parsiapp.model.Post;
 import es.unex.parsiapp.roomdb.ParsiDatabase;
+import es.unex.parsiapp.tweetDetailsActivity;
 import es.unex.parsiapp.twitterapi.TweetResults;
 import es.unex.parsiapp.twitterapi.TwitterService;
 import es.unex.parsiapp.twitterapi.UserData;
@@ -160,7 +161,12 @@ public class HomeFragment extends Fragment {
             listposts = tweetResults.toPostList();
 
             // Actualizar vista
-            ListAdapterPost listAdapter = new ListAdapterPost(listposts, root.getContext());
+            ListAdapterPost listAdapter = new ListAdapterPost(listposts, root.getContext(), new ListAdapterPost.OnItemClickListener() {
+                @Override
+                public void onItemClick(Post item) {
+                    showPost(item, root);
+                }
+            });
             RecyclerView recyclerView = root.findViewById(R.id.listRecyclerView);
             recyclerView.setHasFixedSize(true);
             recyclerView.setLayoutManager(new LinearLayoutManager(root.getContext()));
@@ -168,5 +174,12 @@ public class HomeFragment extends Fragment {
         } catch (Exception e){
             System.out.println("No se han encontrado tweets");
         }
+    }
+
+    public void showPost(Post item, View root){
+        Intent intent = new Intent(root.getContext(), tweetDetailsActivity.class);
+        intent.putExtra("Post", item);
+        intent.putExtra("Saved", 0);
+        startActivity(intent);
     }
 }

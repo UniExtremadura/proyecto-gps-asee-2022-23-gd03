@@ -21,12 +21,17 @@ public class ListAdapterPost extends RecyclerView.Adapter<ListAdapterPost.ViewHo
     private List<Post> mData;
     private LayoutInflater mInlfater;
     private Context context;
+    final ListAdapterPost.OnItemClickListener listener;
 
+    public interface OnItemClickListener {
+        void onItemClick(Post item);
+    }
 
-    public ListAdapterPost(List<Post> postList, Context context){
+    public ListAdapterPost(List<Post> postList, Context context, ListAdapterPost.OnItemClickListener listener){
         this.mInlfater = LayoutInflater.from(context);
         this.context = context;
         this.mData = postList;
+        this.listener = listener;
     }
 
     //Obtiene el numero de post que hay en una lista
@@ -85,6 +90,12 @@ public class ListAdapterPost extends RecyclerView.Adapter<ListAdapterPost.ViewHo
             share.setTag(R.string.idShare, item.getId());
             save.setTag(R.string.idSave, item.getId());
             save.setTag(R.string.idSaveDb, item.getIdDb());
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    listener.onItemClick(item);
+                }
+            });
         }
     }
 }
