@@ -1,5 +1,7 @@
 package es.unex.parsiapp;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -9,8 +11,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AppCompatActivity;
-
+import es.unex.parsiapp.model.Carpeta;
 import es.unex.parsiapp.model.Columna;
 import es.unex.parsiapp.roomdb.ParsiDatabase;
 
@@ -101,11 +102,11 @@ public class CreateColumnActivity extends AppCompatActivity {
             case R.id.query_selection:
                 if (checked)
                     this.radioButton = (RadioButton) findViewById(R.id.query_selection);
-                    break;
+                break;
             case R.id.user_selection:
                 if (checked)
                     this.radioButton = (RadioButton) findViewById(R.id.user_selection);
-                    break;
+                break;
         }
     }
 
@@ -130,6 +131,7 @@ public class CreateColumnActivity extends AppCompatActivity {
         if(columnName.length() > 0 && selectedQuery.length() > 0) {
             // Crea o edita la carpeta correspondiente
             if(this.editedColumn != null){
+                editColumn(columnName, selectedQuery, apiCallType);
                 finish();
             } else {
                 createColumn(columnName, selectedQuery, apiCallType);
@@ -166,4 +168,20 @@ public class CreateColumnActivity extends AppCompatActivity {
         });
     }
 
+    /* Edita una columna existente */
+    public void editColumn(String columnName, String query, Columna.ApiCallType apiCallType){
+        this.editedColumn.setNombre(columnName);
+        this.editedColumn.setApiCall(query);
+        this.editedColumn.setApiCallType(apiCallType);
+
+        AppExecutors.getInstance().diskIO().execute(new Runnable() {
+            @Override
+            public void run() {
+                // Declaracion de la instancia de la BD
+                ParsiDatabase database = ParsiDatabase.getInstance(CreateColumnActivity.this);
+                // Actualizacion en BD
+                database.getColumnaDao().update(editedColumn);
+            }
+        });
+    }
 }
