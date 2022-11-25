@@ -1,0 +1,70 @@
+<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory app:title="@string/settings_general">
+
+        <EditTextPreference
+            app:key="username"
+            app:title="@string/username"
+            app:icon="@drawable/ic_baseline_manage_accounts_24"
+            app:negativeButtonText="cancelar"
+            app:positiveButtonText="aceptar"
+            app:useSimpleSummaryProvider="true"/>
+
+        <ListPreference
+            app:defaultValue="es"
+            app:entries="@array/nombre_idiomas"
+            app:entryValues="@array/valor_idiomas"
+            app:key="idiomas"
+            app:negativeButtonText="cancelar"
+            app:title="@string/idioma"
+            app:icon="@drawable/ic_baseline_language_24"
+            app:useSimpleSummaryProvider="true" />
+
+
+        <SwitchPreferenceCompat
+            app:key="notifications"
+            app:title="@string/notifications"
+            app:icon="@drawable/ic_baseline_notifications_24"
+            app:defaultValue="true"/>
+
+        <ListPreference
+            app:defaultValue="25"
+            app:entries="@array/max_posts_name"
+            app:entryValues="@array/max_posts_values"
+            app:negativeButtonText="cancelar"
+            app:key="max_posts"
+            app:title="@string/max_posts"
+            app:useSimpleSummaryProvider="true" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory app:title="@string/settings_ayuda">
+
+        <Preference
+            app:title="Hacer una pregunta"
+            app:icon="@drawable/ic_baseline_question_mark_24" >
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="https://help.twitter.com/es/forms/privacy/question" />
+        </Preference>
+
+        <Preference
+            app:title="Preguntas frecuentes"
+            app:icon="@drawable/ic_baseline_question_answer_24" >
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="https://help.twitter.com/es/resources/new-user-faq" />
+        </Preference>
+
+        <Preference
+            app:title="Política de privacidad"
+            app:icon="@drawable/ic_baseline_verified_user_24">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="https://twitter.com/es/privacy" />
+        </Preference>
+
+    </PreferenceCategory>
+
+</PreferenceScreen>
