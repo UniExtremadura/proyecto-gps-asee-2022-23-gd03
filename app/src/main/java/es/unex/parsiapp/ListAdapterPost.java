@@ -21,12 +21,17 @@ public class ListAdapterPost extends RecyclerView.Adapter<ListAdapterPost.ViewHo
     private List<Post> mData;
     private LayoutInflater mInlfater;
     private Context context;
+    final ListAdapterPost.OnItemClickListener listener;
 
+    public interface OnItemClickListener {
+        void onItemClick(Post item);
+    }
 
-    public ListAdapterPost(List<Post> postList, Context context){
+    public ListAdapterPost(List<Post> postList, Context context, ListAdapterPost.OnItemClickListener listener){
         this.mInlfater = LayoutInflater.from(context);
         this.context = context;
         this.mData = postList;
+        this.listener = listener;
     }
 
     //Obtiene el numero de post que hay en una lista
@@ -35,13 +40,13 @@ public class ListAdapterPost extends RecyclerView.Adapter<ListAdapterPost.ViewHo
 
     //Establece el diseño que tiene que tener cada post al mostrarse
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType){
+    public ListAdapterPost.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType){
         View view = mInlfater.inflate(R.layout.list_tweet, null);
-        return new ViewHolder(view);
+        return new ListAdapterPost.ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull final ViewHolder holder, final int position) {
+    public void onBindViewHolder(@NonNull final ListAdapterPost.ViewHolder holder, final int position) {
         holder.bindData(mData.get(position));
     }
 
@@ -85,6 +90,12 @@ public class ListAdapterPost extends RecyclerView.Adapter<ListAdapterPost.ViewHo
             share.setTag(R.string.idShare, item.getId());
             save.setTag(R.string.idSave, item.getId());
             save.setTag(R.string.idSaveDb, item.getIdDb());
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    listener.onItemClick(item);
+                }
+            });
         }
     }
 }

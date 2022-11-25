@@ -1,0 +1,45 @@
+<resources>
+    <string-array name="nombre_idiomas">
+        <item>Español, castellano</item>
+        <item>Inglés</item>
+    </string-array>
+
+    <string-array name="valor_idiomas">
+        <item>es</item>
+        <item>en</item>
+    </string-array>
+
+    <string-array name="nombre_temas">
+        <item>Tema claro</item>
+        <item>Tema oscuro</item>
+    </string-array>
+
+    <string-array name="valor_temas">
+        <item>claro</item>
+        <item>oscuro</item>
+    </string-array>
+
+    <string-array name="max_posts_name">
+        <item>10 posts</item>
+        <item>25 posts</item>
+        <item>50 posts</item>
+        <item>75 posts</item>
+        <item>100 posts</item>
+    </string-array>
+
+    <string-array name="max_posts_values">
+        <item>10</item>
+        <item>25</item>
+        <item>50</item>
+        <item>75</item>
+        <item>100</item>
+    </string-array>
+
+    <string-array name="folders">
+        <item>Carpeta 1</item>
+        <item>Carpeta 2</item>
+        <item>Carpeta 3</item>
+        <item>Carpeta 4</item>
+        <item>Carpeta 5</item>
+    </string-array>
+</resources>

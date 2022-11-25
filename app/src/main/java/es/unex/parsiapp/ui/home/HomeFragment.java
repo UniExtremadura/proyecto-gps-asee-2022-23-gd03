@@ -26,6 +26,7 @@ import es.unex.parsiapp.databinding.FragmentHomeBinding;
 import es.unex.parsiapp.model.Columna;
 import es.unex.parsiapp.model.Post;
 import es.unex.parsiapp.roomdb.ParsiDatabase;
+import es.unex.parsiapp.tweetDetailsActivity;
 import es.unex.parsiapp.twitterapi.TweetResults;
 import es.unex.parsiapp.twitterapi.TwitterService;
 import es.unex.parsiapp.twitterapi.UserData;
@@ -103,11 +104,18 @@ public class HomeFragment extends Fragment {
         binding = null;
     }
 
+    public void showPost(Post item, View root){
+        Intent intent = new Intent(root.getContext(), tweetDetailsActivity.class);
+        intent.putExtra("Post", item);
+        intent.putExtra("Saved", 0);
+        startActivity(intent);
+    }
+
     public void tweetsFromQuery(TwitterService twitterService, String query, View root){
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
         String max_posts = sharedPreferences.getString("max_posts", "20");
 
-        twitterService.tweetsFromQuery(query, "Bearer " + bearerTokenApi).enqueue(new Callback<TweetResults>() {
+        twitterService.tweetsFromQuery(query, max_posts, "Bearer " + bearerTokenApi).enqueue(new Callback<TweetResults>() {
             @Override
             public void onResponse(Call<TweetResults> call, Response<TweetResults> response) {
                 onResponseTweets(response, root);
@@ -123,6 +131,7 @@ public class HomeFragment extends Fragment {
     public void tweetsFromUser(TwitterService twitterService, String query, View root){
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
         final String[] userId = {null};
+        String max_posts = sharedPreferences.getString("max_posts", "20");
 
         twitterService.userIDfromUsername(query, "Bearer " + bearerTokenApi).enqueue(new Callback<UserData>() {
             @Override
@@ -132,7 +141,7 @@ public class HomeFragment extends Fragment {
                     Toast.makeText(getContext(), "No se ha encontrado el usuario especificado en la columna", Toast.LENGTH_SHORT).show();
                 } else {
                     userId[0] = udata.getData().getId();
-                    twitterService.tweetsFromUser(userId[0], "Bearer " + bearerTokenApi).enqueue(new Callback<TweetResults>() {
+                    twitterService.tweetsFromUser(userId[0], max_posts, "Bearer " + bearerTokenApi).enqueue(new Callback<TweetResults>() {
                         @Override
                         public void onResponse(Call<TweetResults> call, Response<TweetResults> response) {
                             onResponseTweets(response, root);
@@ -160,8 +169,12 @@ public class HomeFragment extends Fragment {
             listposts = tweetResults.toPostList();
 
             // Actualizar vista
-            ListAdapterPost listAdapter = new ListAdapterPost(listposts, root.getContext());
-            RecyclerView recyclerView = root.findViewById(R.id.listRecyclerView);
+            ListAdapterPost listAdapter = new ListAdapterPost(listposts, root.getContext(), new ListAdapterPost.OnItemClickListener() {
+                @Override
+                public void onItemClick(Post item) {
+                    showPost(item, root);
+                }
+            });            RecyclerView recyclerView = root.findViewById(R.id.listRecyclerView);
             recyclerView.setHasFixedSize(true);
             recyclerView.setLayoutManager(new LinearLayoutManager(root.getContext()));
             recyclerView.setAdapter(listAdapter);

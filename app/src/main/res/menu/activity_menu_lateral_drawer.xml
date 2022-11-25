@@ -1,20 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:showIn="navigation_view">
+    tools:showIn="navigation_view" >
 
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_home"
-            android:icon="@drawable/ic_menu_camera"
+            android:icon="@drawable/ic_baseline_home_24"
             android:title="@string/menu_home" />
-        <item
-            android:id="@+id/nav_columnas"
-            android:icon="@drawable/columna_azul"
-            android:title="@string/menu_columnas" />
-        <item
-            android:id="@+id/nav_gallery"
-            android:icon="@drawable/ic_menu_slideshow"
-            android:title="@string/menu_posts_guardados" />
     </group>
+    <item android:title="@string/menu_columnas">
+        <menu>
+            <group android:checkableBehavior="single">
+                <item
+                    android:id="@+id/nav_columnas"
+                    android:icon="@drawable/columna_azul"
+                    android:title="@string/menu_columnas"
+                    />
+            </group>
+        </menu>
+    </item>
+    <item android:title="@string/menu_posts_guardados">
+        <menu>
+            <group android:checkableBehavior="single">
+                <item
+                    android:id="@+id/nav_gallery"
+                    android:icon="@drawable/ic_baseline_folder_24"
+                    android:title="@string/menu_posts_guardados"
+                    />
+            </group>
+        </menu>
+    </item>
+    <item android:title="@string/m_s_opciones">
+        <menu>
+            <group android:checkableBehavior="single">
+                <item
+                    android:id="@+id/app_bar_switch"
+                    android:title="@string/modo_oscuro"
+                    android:icon="@drawable/ic_baseline_dark_mode_24"
+                    app:actionLayout="@layout/switch_item"
+                    app:showAsAction="always" />
+                <item
+                    android:id="@+id/nav_settings"
+                    android:title="@string/configuraci_n"
+                    android:icon="@drawable/ic_baseline_settings_24"/>
+            </group>
+        </menu>
+    </item>
 </menu>

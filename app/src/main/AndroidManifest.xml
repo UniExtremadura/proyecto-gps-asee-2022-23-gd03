@@ -15,13 +15,6 @@
         android:theme="@style/Theme.ParsiApp"
         tools:targetApi="31">
         <activity
-            android:name=".CreateFolderActivity"
-            android:exported="false">
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
-        </activity>
-        <activity
             android:name=".ListAdapterPostSaved"
             android:exported="false">
             <meta-data
@@ -29,7 +22,7 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".tweetDetailsActivity"
+            android:name=".CreateFolderActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
@@ -43,7 +36,21 @@
                 android:value="" />
         </activity>
         <activity
+            android:name=".tweetDetailsActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
             android:name=".CreateColumnActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".DeleteActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"

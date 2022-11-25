@@ -22,4 +22,10 @@
         android:name="es.unex.parsiapp.ui.gallery.FolderFragment"
         android:label="@string/menu_posts_guardados"
         tools:layout="@layout/fragment_folder" />
+
+    <fragment
+        android:id="@+id/nav_settings"
+        android:name="es.unex.parsiapp.ui.settings.SettingsFragment"
+        android:label="@string/menu_settings"
+        tools:layout="@layout/fragment_settings" />
 </navigation>

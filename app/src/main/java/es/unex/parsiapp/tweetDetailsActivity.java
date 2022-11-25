@@ -57,7 +57,8 @@ public class tweetDetailsActivity extends AppCompatActivity {
         save.setTag(R.string.idSave, item.getId());
     }
 
-    public void compartirPostTweet(View v){
+
+    public void compartirPost(View v){
         // Accion de compartir
         Intent intent = new Intent();
         intent.setAction(Intent.ACTION_SEND);
