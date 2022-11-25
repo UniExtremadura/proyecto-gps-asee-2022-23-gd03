@@ -61,6 +61,19 @@ public class HomeFragment extends Fragment {
         // Mostrar tweets
         showTweetsFromColumna(root);
 
+        refresh = (SwipeRefreshLayout) root.findViewById(R.id.swipeRefreshLayout);
+
+        refresh.setColorSchemeResources(R.color.white);
+        refresh.setProgressBackgroundColorSchemeResource(R.color.blueParsi);
+
+        refresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                showTweetsFromColumna(root);
+                refresh.setRefreshing(false);
+            }
+        });
+
         return root;
     }
 
@@ -108,7 +121,7 @@ public class HomeFragment extends Fragment {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
         String max_posts = sharedPreferences.getString("max_posts", "20");
 
-        twitterService.tweetsFromQuery(query, "Bearer " + bearerTokenApi).enqueue(new Callback<TweetResults>() {
+        twitterService.tweetsFromQuery(query, max_posts, "Bearer " + bearerTokenApi).enqueue(new Callback<TweetResults>() {
             @Override
             public void onResponse(Call<TweetResults> call, Response<TweetResults> response) {
                 onResponseTweets(response, root);
@@ -124,6 +137,7 @@ public class HomeFragment extends Fragment {
     public void tweetsFromUser(TwitterService twitterService, String query, View root){
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
         final String[] userId = {null};
+        String max_posts = sharedPreferences.getString("max_posts", "20");
 
         twitterService.userIDfromUsername(query, "Bearer " + bearerTokenApi).enqueue(new Callback<UserData>() {
             @Override
@@ -133,7 +147,7 @@ public class HomeFragment extends Fragment {
                     Toast.makeText(getContext(), "No se ha encontrado el usuario especificado en la columna", Toast.LENGTH_SHORT).show();
                 } else {
                     userId[0] = udata.getData().getId();
-                    twitterService.tweetsFromUser(userId[0], "Bearer " + bearerTokenApi).enqueue(new Callback<TweetResults>() {
+                    twitterService.tweetsFromUser(userId[0], max_posts, "Bearer " + bearerTokenApi).enqueue(new Callback<TweetResults>() {
                         @Override
                         public void onResponse(Call<TweetResults> call, Response<TweetResults> response) {
                             onResponseTweets(response, root);
