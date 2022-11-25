@@ -117,13 +117,6 @@ public class HomeFragment extends Fragment {
         binding = null;
     }
 
-    public void showPost(Post item, View root){
-        Intent intent = new Intent(root.getContext(), tweetDetailsActivity.class);
-        intent.putExtra("Post", item);
-        intent.putExtra("Saved", 0);
-        startActivity(intent);
-    }
-
     public void tweetsFromQuery(TwitterService twitterService, String query, View root){
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
         String max_posts = sharedPreferences.getString("max_posts", "20");
@@ -187,12 +180,20 @@ public class HomeFragment extends Fragment {
                 public void onItemClick(Post item) {
                     showPost(item, root);
                 }
-            });            RecyclerView recyclerView = root.findViewById(R.id.listRecyclerView);
+            });
+            RecyclerView recyclerView = root.findViewById(R.id.listRecyclerView);
             recyclerView.setHasFixedSize(true);
             recyclerView.setLayoutManager(new LinearLayoutManager(root.getContext()));
             recyclerView.setAdapter(listAdapter);
         } catch (Exception e){
             System.out.println("No se han encontrado tweets");
         }
+    }
+
+    public void showPost(Post item, View root){
+        Intent intent = new Intent(root.getContext(), tweetDetailsActivity.class);
+        intent.putExtra("Post", item);
+        intent.putExtra("Saved", 0);
+        startActivity(intent);
     }
 }

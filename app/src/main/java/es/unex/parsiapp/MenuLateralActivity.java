@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.Menu;
 import android.widget.ImageButton;
@@ -88,6 +89,17 @@ public class MenuLateralActivity extends AppCompatActivity {
         intent.putExtra("create", true);
         // Se inicia la actividad CreateColumnActivity
         startActivity(intent);
+    }
+
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        // TODO Auto-generated method stub
+        if (keyCode == event.KEYCODE_BACK) {
+            Intent intent = new Intent(this, MenuLateralActivity.class);
+            startActivity(intent);
+        }
+        return super.onKeyDown(keyCode, event);
     }
 
     // Accion al pulsar el boton de "editar columna"
