@@ -61,7 +61,15 @@ public class ColumnasFragment extends Fragment {
                 listColumna = database.getColumnaDao().getAll();
 
                 if(listColumna != null) {
-                    ListAdapterColumna listAdapter = new ListAdapterColumna(listColumna, root.getContext());
+                    ListAdapterColumna listAdapter = new ListAdapterColumna(listColumna, root.getContext(), new ListAdapterColumna.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(Columna item) {
+                            item.setColumnaActual(true);
+                            updateColumnaActual(item);
+                            showColumnas(root);
+                            Toast.makeText(getContext(), "Se ha cambiado la columna actual a " + item.getNombre(), Toast.LENGTH_SHORT).show();
+                        }
+                    });
                     // La UI debe de ejecutarse en un mainThread (si no, peta)
                     AppExecutors.getInstance().mainThread().execute(new Runnable() {
                         @Override
@@ -73,7 +81,22 @@ public class ColumnasFragment extends Fragment {
                         }
                     });
                 }
+            }
+        });
+    }
 
+    public void updateColumnaActual(Columna newC){
+        AppExecutors.getInstance().diskIO().execute(new Runnable() {
+            @Override
+            public void run() {
+                ParsiDatabase database = ParsiDatabase.getInstance(getActivity());
+                // Obtencion columna actual
+                Columna oldC = database.getColumnaDao().getColumnaActual();
+                if(oldC != null){
+                    oldC.setColumnaActual(false);
+                    database.getColumnaDao().update(oldC);
+                }
+                database.getColumnaDao().update(newC);
             }
         });
     }
