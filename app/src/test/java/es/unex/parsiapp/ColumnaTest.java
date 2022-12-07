@@ -22,7 +22,6 @@ public class ColumnaTest {
         assertNotNull("El idDb recuperado es nulo.", idDbRecuperado);
     }
 
-
     @Test
     public void getApiCall() {
         Columna columna = new Columna();
@@ -34,5 +33,14 @@ public class ColumnaTest {
         assertNotNull("La llamada a la API es nula.", llamadaRecuperada);
     }
 
+    @Test
+    public void getApiCallType() {
+        Columna columna = new Columna();
+        columna.setApiCallType(Columna.ApiCallType.USER);
 
+        Columna.ApiCallType apiCallType = columna.getApiCallType();
+
+        assertEquals("El tipo de la llamada a la API no coincide.", apiCallType, Columna.ApiCallType.USER);
+        assertNotNull("El tipo de la llamada a la API es nula.", apiCallType);
+    }
 }
