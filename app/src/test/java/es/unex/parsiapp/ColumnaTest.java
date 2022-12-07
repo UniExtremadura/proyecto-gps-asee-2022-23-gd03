@@ -43,4 +43,23 @@ public class ColumnaTest {
         assertEquals("El tipo de la llamada a la API no coincide.", apiCallType, Columna.ApiCallType.USER);
         assertNotNull("El tipo de la llamada a la API es nula.", apiCallType);
     }
+
+    public void setColumnaActual() {
+        Columna columna = new Columna();
+        columna.setNombre("Columna 1");
+        columna.setColumnaActual(true);
+
+        assertTrue("La columna no está marcada como la columna actual.", columna.isColumnaActual());
+    }
+
+    @Test
+    public void isColumnaActual() {
+        Columna columna = new Columna();
+        columna.setNombre("Columna 1");
+        columna.setColumnaActual(true);
+
+        boolean actual = columna.isColumnaActual();
+
+        assertTrue("La columna no está marcada como la columna actual.", actual);
+    }
 }
