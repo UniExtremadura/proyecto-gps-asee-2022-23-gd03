@@ -237,6 +237,15 @@ public class CU11_CompartirPost_Test {
                         isDisplayed()));
         textView.check(matches(withText("Inicio")));
 
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        onView(withId(R.id.listRecyclerView))
+                .perform(actionOnItemAtPosition(0, CU11_CompartirPost_Test.MyViewAction.clickChildViewWithId(R.id.share)));
+
     }
 
     private static Matcher<View> childAtPosition(
