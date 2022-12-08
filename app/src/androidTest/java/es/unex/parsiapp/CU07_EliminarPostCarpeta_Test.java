@@ -472,6 +472,27 @@ public class CU07_EliminarPostCarpeta_Test {
                                         0),
                                 3)));
         appCompatButton7.perform(scrollTo(), click());
+
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        pressBack();
+
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        ViewInteraction textView2 = onView(
+                allOf(withText("Carpetas"),
+                        withParent(allOf(withId(R.id.toolbar),
+                                withParent(IsInstanceOf.<View>instanceOf(android.widget.LinearLayout.class)))),
+                        isDisplayed()));
+        textView2.check(matches(withText("Carpetas")));
     }
 
     private static Matcher<View> childAtPosition(
