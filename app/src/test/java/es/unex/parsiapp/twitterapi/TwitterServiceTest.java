@@ -49,4 +49,22 @@ public class TwitterServiceTest {
         assertNotNull(post);
     }
 
+    @Test
+    public void tweetsFromQuery() throws IOException {
+
+        twitterService = retrofit.create(TwitterService.class);
+
+        Call<TweetResults> call = twitterService.tweetsFromQuery("mundial", "10", "Bearer " + bearerTokenApi);
+
+        Response<TweetResults> response = call.execute();
+
+        TweetResults tweetResults = response.body();
+        listposts = tweetResults.toPostList();
+
+        assertTrue(response != null);
+        assertTrue(response.isSuccessful());
+        assertNotNull(listposts);
+        assertTrue(listposts.size() == 10);
+    }
+
 }
