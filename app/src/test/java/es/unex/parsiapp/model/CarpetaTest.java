@@ -1,8 +1,5 @@
 package es.unex.parsiapp.model;
 
-import static org.junit.Assert.*;
-
-import org.junit.Before;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
@@ -14,9 +11,22 @@ import org.junit.Test;
 import java.util.ArrayList;
 import java.util.List;
 
+import es.unex.parsiapp.model.Carpeta;
+import es.unex.parsiapp.model.Post;
+
 public class CarpetaTest {
 
     private List<Post> listaPosts;
+
+    @Test
+    public void setNombre() {
+        Carpeta carpeta = new Carpeta();
+        String nombreCarpeta = "Carpeta 1";
+        carpeta.setNombre(nombreCarpeta);
+
+        assertEquals("El nombre de la carpeta no coincide.", carpeta.getNombre(), "Carpeta 1");
+        assertNotNull("El nombre de la carpeta es nulo.", carpeta.getNombre());
+    }
 
     @Test
     public void getNombre() {
@@ -31,13 +41,13 @@ public class CarpetaTest {
     }
 
     @Test
-    public void setNombre() {
+    public void setIdDb() {
         Carpeta carpeta = new Carpeta();
-        String nombreCarpeta = "Carpeta 1";
-        carpeta.setNombre(nombreCarpeta);
+        long idDbCarpeta = 5;
+        carpeta.setIdDb(idDbCarpeta);
 
-        assertEquals("El nombre de la carpeta no coincide.", carpeta.getNombre(), "Carpeta 1");
-        assertNotNull("El nombre de la carpeta es nulo.", carpeta.getNombre());
+        assertEquals("El idDb de la carpeta no coincide.", carpeta.getIdDb(), 5);
+        assertNotNull("El idDb de la carpeta es nulo.", carpeta.getIdDb());
     }
 
     @Test
