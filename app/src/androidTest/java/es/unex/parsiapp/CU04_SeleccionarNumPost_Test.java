@@ -383,6 +383,18 @@ public class CU04_SeleccionarNumPost_Test {
                         isDisplayed()));
         navigationMenuItemView3.perform(click());
 
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        ViewInteraction textView6 = onView(
+                allOf(withText("Inicio"),
+                        withParent(allOf(withId(R.id.toolbar),
+                                withParent(IsInstanceOf.<View>instanceOf(android.widget.LinearLayout.class)))),
+                        isDisplayed()));
+        textView6.check(matches(withText("Inicio")));
     }
 
     private static Matcher<View> childAtPosition(
