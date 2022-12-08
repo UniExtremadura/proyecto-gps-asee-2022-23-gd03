@@ -169,6 +169,35 @@ public class CU02_CrearUsuario_Test {
                         isDisplayed()));
         appCompatEditText6.perform(replaceText("12345"), closeSoftKeyboard());
 
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        ViewInteraction appCompatButton3 = onView(
+                allOf(withId(R.id.register_confirm_button), withText("Registrarse"),
+                        childAtPosition(
+                                childAtPosition(
+                                        withId(android.R.id.content),
+                                        0),
+                                3),
+                        isDisplayed()));
+        appCompatButton3.perform(click());
+
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        ViewInteraction textView = onView(
+                allOf(withText("Inicio"),
+                        withParent(allOf(withId(R.id.toolbar),
+                                withParent(IsInstanceOf.<View>instanceOf(android.widget.LinearLayout.class)))),
+                        isDisplayed()));
+        textView.check(matches(withText("Inicio")));
+
     }
 
     private static Matcher<View> childAtPosition(
