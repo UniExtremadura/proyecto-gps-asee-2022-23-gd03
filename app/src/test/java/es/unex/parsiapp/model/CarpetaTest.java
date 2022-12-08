@@ -22,5 +22,6 @@ public class CarpetaTest {
         carpeta.setNombre(nombreCarpeta);
 
         assertEquals("El nombre de la carpeta no coincide.", carpeta.getNombre(), "Carpeta 1");
+        assertNotNull("El nombre de la carpeta es nulo.", carpeta.getNombre());
     }
 }
