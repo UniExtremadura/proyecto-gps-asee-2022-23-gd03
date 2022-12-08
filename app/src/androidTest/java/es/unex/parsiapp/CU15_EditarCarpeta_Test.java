@@ -345,6 +345,19 @@ public class CU15_EditarCarpeta_Test {
                                 withParent(IsInstanceOf.<View>instanceOf(android.widget.LinearLayout.class)))),
                         isDisplayed()));
         textView4.check(matches(withText("Carpetas")));
+
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        ViewInteraction textView5 = onView(
+                allOf(withId(R.id.nameFolderView), withText("FinalMundial"),
+                        withParent(allOf(withId(R.id.folderNameLayout),
+                                withParent(IsInstanceOf.<View>instanceOf(android.widget.RelativeLayout.class)))),
+                        isDisplayed()));
+        textView5.check(matches(withText("FinalMundial")));
     }
 
     private static Matcher<View> childAtPosition(
