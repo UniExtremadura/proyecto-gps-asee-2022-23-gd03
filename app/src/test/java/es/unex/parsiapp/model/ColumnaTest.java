@@ -1,4 +1,4 @@
-package es.unex.parsiapp;
+package es.unex.parsiapp.model;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
