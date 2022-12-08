@@ -23,10 +23,12 @@ public class CarpetaTest {
         listaPosts = new ArrayList<Post>();
 
         Post p1 = new Post(1, "1234", 1);
+        Post p2 = new Post(2, "5678", 2);
 
         listaPosts.add(p1);
+        listaPosts.add(p2);
 
-        assertTrue("El tamaño de la lista de posts no es el esperado.", listaPosts.size() == 1);
+        assertTrue("El tamaño de la lista de posts no es el esperado.", listaPosts.size() == 2);
         assertFalse("La lista de posts está vacía.", listaPosts.isEmpty());
         assertNotEquals("El primer elemento de la lista es nulo.", listaPosts.get(0), null);
     }
