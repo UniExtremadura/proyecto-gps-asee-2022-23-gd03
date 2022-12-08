@@ -11,6 +11,17 @@ import es.unex.parsiapp.model.Columna;
 public class ColumnaTest {
 
     @Test
+    public void isColumnaActual() {
+        Columna columna = new Columna();
+        columna.setNombre("Columna 1");
+        columna.setColumnaActual(true);
+
+        boolean actual = columna.isColumnaActual();
+
+        assertTrue("La columna no está marcada como la columna actual.", actual);
+    }
+
+    @Test
     public void getIdDb() {
         Columna columna = new Columna();
         long idDbColumna = 5;
@@ -102,14 +113,5 @@ public class ColumnaTest {
         assertTrue("La columna no está marcada como la columna actual.", columna.isColumnaActual());
     }
 
-    @Test
-    public void isColumnaActual() {
-        Columna columna = new Columna();
-        columna.setNombre("Columna 1");
-        columna.setColumnaActual(true);
 
-        boolean actual = columna.isColumnaActual();
-
-        assertTrue("La columna no está marcada como la columna actual.", actual);
-    }
 }

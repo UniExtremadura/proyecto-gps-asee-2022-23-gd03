@@ -24,7 +24,7 @@ public class TwitterServiceTest {
             .build();
     private List<Post> listposts;
 
-    @Test
+
     public void tweetFromID() throws IOException {
 
         twitterService = retrofit.create(TwitterService.class);
@@ -67,4 +67,39 @@ public class TwitterServiceTest {
         assertTrue(listposts.size() == 10);
     }
 
+    public void tweetsFromUser() throws IOException {
+
+        twitterService = retrofit.create(TwitterService.class);
+
+        Call<UserData> callUser = twitterService.userIDfromUsername("elonmusk", "Bearer " + bearerTokenApi);
+
+        Response<UserData> responseUser = callUser.execute();
+
+        UserData userData = responseUser.body();;
+
+        Call<TweetResults> callPost = twitterService.tweetsFromUser(userData.getData().getId(), "10", "Bearer " + bearerTokenApi);
+
+        Response<TweetResults> responsePost = callPost.execute();
+
+        TweetResults tweetResults = responsePost.body();
+        listposts = tweetResults.toPostList();
+
+        assertTrue(responsePost != null);
+        assertTrue(responsePost.isSuccessful());
+        assertNotNull(listposts);
+        assertTrue(listposts.size() == 10);
+    }
+
+    @Test
+    public void userIDfromUsername() throws IOException {
+
+        twitterService = retrofit.create(TwitterService.class);
+
+        Call<UserData> call = twitterService.userIDfromUsername("elonmusk", "Bearer " + bearerTokenApi);
+
+        Response<UserData> response = call.execute();
+
+        assertTrue(response.isSuccessful());
+        assertNotNull(response);
+    }
 }
