@@ -11,6 +11,7 @@ import org.junit.Test;
 import java.util.ArrayList;
 import java.util.List;
 
+
 import es.unex.parsiapp.model.Carpeta;
 import es.unex.parsiapp.model.Post;
 
@@ -75,5 +76,20 @@ public class CarpetaTest {
         assertTrue("El tamaño de la lista de posts no es el esperado.", listaPosts.size() == 2);
         assertFalse("La lista de posts está vacía.", listaPosts.isEmpty());
         assertNotEquals("El primer elemento de la lista es nulo.", listaPosts.get(0), null);
+    }
+
+    @Test
+    public void quitarPost() {
+        listaPosts = new ArrayList<Post>();
+
+        Post p1 = new Post("1");
+        Post p2 = new Post("2");
+
+        listaPosts.add(p1);
+        listaPosts.add(p2);
+
+        listaPosts.remove(0);
+
+        assertTrue("El tamaño de la lista de posts no es el esperado.", listaPosts.size() == 1);
     }
 }
