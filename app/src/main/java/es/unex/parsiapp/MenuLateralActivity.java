@@ -235,7 +235,7 @@ public class MenuLateralActivity extends AppCompatActivity {
                             .setNegativeButton("CANCELAR", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-
+                                    Toast.makeText(MenuLateralActivity.this, "Acción cancelada", Toast.LENGTH_SHORT).show();
                                 }
                             });
                 }
