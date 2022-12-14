@@ -38,6 +38,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class HomeFragment extends Fragment {
 
+    private final String bearer = "Bearer ";
     private List<Post> listposts; // Lista de posts en Home
     private FragmentHomeBinding binding; // Binding
     private String bearerTokenApi = "AAAAAAAAAAAAAAAAAAAAAN17jAEAAAAARPbZdHUXnMf%2F1qOKDcvaADYaD8Y%3DCJ2WH2ItpWhqKEvdwIz7hWu6qnUU9UlbYe0LEQtd7E7EfvJRU8"; // Token API
@@ -121,7 +122,7 @@ public class HomeFragment extends Fragment {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
         String max_posts = sharedPreferences.getString("max_posts", "20");
 
-        twitterService.tweetsFromQuery(query, max_posts, "Bearer " + bearerTokenApi).enqueue(new Callback<TweetResults>() {
+        twitterService.tweetsFromQuery(query, max_posts, bearer + bearerTokenApi).enqueue(new Callback<TweetResults>() {
             @Override
             public void onResponse(Call<TweetResults> call, Response<TweetResults> response) {
                 onResponseTweets(response, root);
@@ -139,7 +140,7 @@ public class HomeFragment extends Fragment {
         final String[] userId = {null};
         String max_posts = sharedPreferences.getString("max_posts", "20");
 
-        twitterService.userIDfromUsername(query, "Bearer " + bearerTokenApi).enqueue(new Callback<UserData>() {
+        twitterService.userIDfromUsername(query, bearer + bearerTokenApi).enqueue(new Callback<UserData>() {
             @Override
             public void onResponse(Call<UserData> call, Response<UserData> response) {
                 UserData udata = response.body();
@@ -147,7 +148,7 @@ public class HomeFragment extends Fragment {
                     Toast.makeText(getContext(), "No se ha encontrado el usuario especificado en la columna", Toast.LENGTH_SHORT).show();
                 } else {
                     userId[0] = udata.getData().getId();
-                    twitterService.tweetsFromUser(userId[0], max_posts, "Bearer " + bearerTokenApi).enqueue(new Callback<TweetResults>() {
+                    twitterService.tweetsFromUser(userId[0], max_posts, bearer + bearerTokenApi).enqueue(new Callback<TweetResults>() {
                         @Override
                         public void onResponse(Call<TweetResults> call, Response<TweetResults> response) {
                             onResponseTweets(response, root);

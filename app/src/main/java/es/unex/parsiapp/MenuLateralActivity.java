@@ -38,6 +38,8 @@ public class MenuLateralActivity extends AppCompatActivity {
 
     ImageButton b;
 
+    private final String create = "create";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -76,7 +78,7 @@ public class MenuLateralActivity extends AppCompatActivity {
     // Accion al pulsar boton de "crear carpeta"
     public void onCreateFolderButton(View v){
         Intent intent = new Intent(MenuLateralActivity.this, CreateFolderActivity.class);
-        intent.putExtra("create", true);
+        intent.putExtra(create, true);
         // Se inicia la actividad CreateFolderActivity
         startActivity(intent);
     }
@@ -86,7 +88,7 @@ public class MenuLateralActivity extends AppCompatActivity {
     public void onCreateColumnButton(View v){
         Intent intent = new Intent(MenuLateralActivity.this, CreateColumnActivity.class);
         // Se agrega el extra "create". Si es true, la columna se crea. Si es false, la columna se edita.
-        intent.putExtra("create", true);
+        intent.putExtra(create, true);
         // Se inicia la actividad CreateColumnActivity
         startActivity(intent);
     }
@@ -108,7 +110,7 @@ public class MenuLateralActivity extends AppCompatActivity {
 
         Intent intent = new Intent(MenuLateralActivity.this, CreateColumnActivity.class);
         // Se agrega el extra "create". Si es true, la columna se crea. Si es false, la columna se edita.
-        intent.putExtra("create", false);
+        intent.putExtra(create, false);
         // Se agrega el extra "idcolumna" para saber que columna se esta editando
         intent.putExtra("idcolumna", id_columna);
         // Se inicia la actividad CreateColumnActivity
@@ -142,6 +144,9 @@ public class MenuLateralActivity extends AppCompatActivity {
             case R.id.deleteColumn:
                 deletedElement = "Column";
                 break;
+            default:
+                Toast.makeText(MenuLateralActivity.this, "Error al obtener el tipo de elemento a eliminar", Toast.LENGTH_SHORT).show();
+                break;
         }
         // Se pasan el ID y el elemento a borrar como Extras en el Intent
         Intent intent = new Intent(MenuLateralActivity.this, DeleteActivity.class);
@@ -161,7 +166,7 @@ public class MenuLateralActivity extends AppCompatActivity {
         // Se pasan el nombre e ID de la carpeta como Extras en el Intent
         Intent intent = new Intent(MenuLateralActivity.this, CreateFolderActivity.class);
         intent.putExtra("idfolder", idFolder);
-        intent.putExtra("create", false);
+        intent.putExtra(create, false);
         // Se inicia la actividad CreateFolderActivity
         startActivity(intent);
     }
@@ -233,7 +238,7 @@ public class MenuLateralActivity extends AppCompatActivity {
                             .setNegativeButton("CANCELAR", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-
+                                    Toast.makeText(MenuLateralActivity.this, "Acción cancelada", Toast.LENGTH_SHORT).show();
                                 }
                             });
                 }
