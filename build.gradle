@@ -8,7 +8,7 @@ plugins {
 sonarqube {
   properties {
     property "sonar.projectKey", "UniExtremadura_proyecto-gps-asee-2022-23-gd03"
-    property "sonar.organization", "uniextremadura"
+    property "sonar.organization", "uniextremadura" 
     property "sonar.host.url", "https://sonarcloud.io"
   }
 }
