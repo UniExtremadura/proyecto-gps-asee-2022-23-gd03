@@ -28,7 +28,6 @@ public class PostTest {
         post.setIdCarpeta(5);
 
         assertEquals("El id de la carpeta no coincide.", post.getIdCarpeta(), 5);
-        assertNotNull("El id de la carpeta es nulo.", post.getIdCarpeta());
     }
 
     @Test
