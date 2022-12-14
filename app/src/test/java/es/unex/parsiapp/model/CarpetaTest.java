@@ -48,7 +48,6 @@ public class CarpetaTest {
         carpeta.setIdDb(idDbCarpeta);
 
         assertEquals("El idDb de la carpeta no coincide.", carpeta.getIdDb(), 5);
-        assertNotNull("El idDb de la carpeta es nulo.", carpeta.getIdDb());
     }
 
     @Test
