@@ -107,6 +107,9 @@ public class CreateColumnActivity extends AppCompatActivity {
                 if (checked)
                     this.radioButton = (RadioButton) findViewById(R.id.user_selection);
                 break;
+            default:
+                Toast.makeText(CreateColumnActivity.this, "Error al seleccionar el tipo de columna", Toast.LENGTH_SHORT).show();
+                break;
         }
     }
 
