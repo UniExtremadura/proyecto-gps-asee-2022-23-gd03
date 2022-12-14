@@ -144,6 +144,9 @@ public class MenuLateralActivity extends AppCompatActivity {
             case R.id.deleteColumn:
                 deletedElement = "Column";
                 break;
+            default:
+                Toast.makeText(MenuLateralActivity.this, "Error al obtener el tipo de elemento a eliminar", Toast.LENGTH_SHORT).show();
+                break;
         }
         // Se pasan el ID y el elemento a borrar como Extras en el Intent
         Intent intent = new Intent(MenuLateralActivity.this, DeleteActivity.class);
