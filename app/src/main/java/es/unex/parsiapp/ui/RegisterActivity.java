@@ -34,7 +34,6 @@ public class RegisterActivity extends AppCompatActivity {
 
         mViewModel.getUser().observe(this, usuario -> {
             user = usuario;
-            registro();
         });
 
         Button b = (Button) findViewById(R.id.register_confirm_button);
@@ -48,6 +47,7 @@ public class RegisterActivity extends AppCompatActivity {
                 password = ps.getText().toString();
 
                 mViewModel.setUser(username);
+                registro();
             }
         });
     }
@@ -55,27 +55,29 @@ public class RegisterActivity extends AppCompatActivity {
     // --- Otros métodos ---
 
     // Registro del usuario
-    public void registro(){
+    public void registro() {
 
         String mensaje;
         boolean logged = false;
-        if(user != null){
-            mensaje = "Error, ya existe un usuario con ese nombre";
-        } else {
-            if(username.length() > 0 && password.length() > 0){
-                Usuario newU = new Usuario(username, password);
-                mViewModel.createUser(newU);
-
-                mensaje = "¡Bienvenido a Parsi, " + newU.getUsername() + "!";
-                logged = true;
+        if (username != null && password != null) {
+            if (user != null) {
+                mensaje = "Error, ya existe un usuario con ese nombre";
             } else {
-                mensaje = "¡No puedes dejar vacío ningún campo al registrarte!";
+                if (username.length() > 0 && password.length() > 0) {
+                    Usuario newU = new Usuario(username, password);
+                    mViewModel.createUser(newU);
+
+                    mensaje = "¡Bienvenido a Parsi, " + newU.getUsername() + "!";
+                    logged = true;
+                } else {
+                    mensaje = "¡No puedes dejar vacío ningún campo al registrarte!";
+                }
             }
-        }
-        Toast.makeText(RegisterActivity.this, mensaje, Toast.LENGTH_SHORT).show();
-        if(logged){
-            Intent intent = new Intent(RegisterActivity.this, MenuLateralActivity.class);
-            startActivity(intent);
+            Toast.makeText(RegisterActivity.this, mensaje, Toast.LENGTH_SHORT).show();
+            if (logged) {
+                Intent intent = new Intent(RegisterActivity.this, MenuLateralActivity.class);
+                startActivity(intent);
+            }
         }
     }
 }

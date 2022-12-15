@@ -56,6 +56,7 @@ public class HomeFragment extends Fragment {
 
         mViewModel.getPosts().observe(getViewLifecycleOwner(), posts -> {
             mAdapter.swap(posts);
+            showTweetsFromColumna(root);
         });
 
         mRecyclerView = rootV.findViewById(R.id.listRecyclerView);
@@ -93,8 +94,10 @@ public class HomeFragment extends Fragment {
         String max_posts = sharedPreferences.getString("max_posts", "20");
 
         mViewModel.setColumna(max_posts);
-        TextView t = (TextView) root.findViewById(R.id.addColumn);
-        t.setVisibility(View.INVISIBLE);
+        if(mAdapter.getItemCount() > 0){
+            TextView t = (TextView) root.findViewById(R.id.addColumn);
+            t.setVisibility(View.INVISIBLE);
+        }
 
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(rootV.getContext()));
