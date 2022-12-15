@@ -21,6 +21,10 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            buildConfigField 'String', 'api_token', getSecretKeys()['api_token']
+        }
+        debug {
+            buildConfigField 'String', 'api_token', getSecretKeys()['api_token']
         }
     }
     compileOptions {
@@ -39,6 +43,13 @@ android {
     useLibrary 'android.test.runner'
     useLibrary 'android.test.base'
     useLibrary 'android.test.mock'
+}
+
+def getSecretKeys(){
+    def keyFile = rootProject.file("local.properties")
+    def secretKeys = new Properties()
+    secretKeys.load(new FileInputStream(keyFile))
+    return secretKeys
 }
 
 dependencies {

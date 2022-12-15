@@ -1,9 +1,12 @@
 package es.unex.parsiapp.twitterapi;
 
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 
+import es.unex.parsiapp.BuildConfig;
 import es.unex.parsiapp.model.Columna;
 import es.unex.parsiapp.model.Post;
 import es.unex.parsiapp.util.AppExecutors;
@@ -17,7 +20,8 @@ public class PostNetworkLoaderRunnable implements Runnable{
     private final OnPostsLoadedListener mOnPostsLoadedListener;
     private final Columna mColumna;
     private final String mMaxPosts;
-    private String bearerTokenApi = "AAAAAAAAAAAAAAAAAAAAAN17jAEAAAAARPbZdHUXnMf%2F1qOKDcvaADYaD8Y%3DCJ2WH2ItpWhqKEvdwIz7hWu6qnUU9UlbYe0LEQtd7E7EfvJRU8"; // Token API
+
+    private final String bearerTokenApi;
     // Objeto Retrofit para realizar llamadas a la API
     private Retrofit retrofit = new Retrofit.Builder()
             .baseUrl("https://api.twitter.com/2/")
@@ -26,6 +30,7 @@ public class PostNetworkLoaderRunnable implements Runnable{
     private Call<TweetResults> callObject;
 
     public PostNetworkLoaderRunnable(Columna columna, String maxPosts, OnPostsLoadedListener onPostsLoadedListener){
+        bearerTokenApi = BuildConfig.api_token;
         mOnPostsLoadedListener = onPostsLoadedListener;
         mColumna = columna;
         mMaxPosts = maxPosts;
