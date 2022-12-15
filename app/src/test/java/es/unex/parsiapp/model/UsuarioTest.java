@@ -24,6 +24,7 @@ public class UsuarioTest {
         long idDbRecuperado = usuario.getIdDb();
 
         assertEquals("El idDb del usuario no coincide.", idDbRecuperado, 5);
+        assertNotNull("El idDb del usuario es nulo.", idDbRecuperado);
     }
 
     @Test

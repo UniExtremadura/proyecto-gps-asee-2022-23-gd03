@@ -7,7 +7,6 @@ import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 public interface TwitterService {
-    int MAX_RESULTS = 20;
 
     // Llamada que obtiene los tweets a partir de un concepto (Query)
     @GET("https://api.twitter.com/2/tweets/search/recent?expansions=author_id&tweet.fields=author_id,created_at&media.fields=url&user.fields=name,username,profile_image_url")
@@ -21,6 +20,7 @@ public interface TwitterService {
     @GET("https://api.twitter.com/2/tweets/{id}?tweet.fields=author_id,created_at&expansions=author_id&media.fields=url&user.fields=name,username,profile_image_url")
     Call<SingleTweet> tweetFromID(@Path("id") String id, @Header("Authorization") String authHeader);
 
+    // Llamada que obtiene el ID de un usuario en base a su nombre (necesario para tweetsFromUser)
     @GET("https://api.twitter.com/2/users/by/username/{username}")
     Call<UserData> userIDfromUsername(@Path("username") String username, @Header("Authorization") String authHeader);
 }

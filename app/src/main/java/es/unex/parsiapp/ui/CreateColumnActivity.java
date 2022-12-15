@@ -1,6 +1,4 @@
-package es.unex.parsiapp;
-
-import androidx.appcompat.app.AppCompatActivity;
+package es.unex.parsiapp.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,24 +9,30 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
-import es.unex.parsiapp.model.Carpeta;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
+
+import es.unex.parsiapp.MyApplication;
+import es.unex.parsiapp.R;
 import es.unex.parsiapp.model.Columna;
-import es.unex.parsiapp.roomdb.ParsiDatabase;
+import es.unex.parsiapp.util.AppContainer;
 
 public class CreateColumnActivity extends AppCompatActivity {
 
-    private RadioGroup radioGroup; // Grupo de botones de tipo radio
     private RadioButton radioButton; // Boton de tipo radio seleccionado actualmente
     private Columna editedColumn = null; // Columna que se esta editando
+    private CreateColumnViewModel mViewModel;
 
-    /* Metodos de Callback */
+    // --- Metodos de Callback ---
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_column);
 
         // Se obtiene el grupo de botones de tipo radio
-        this.radioGroup = (RadioGroup) findViewById(R.id.api_call_type_selection);
+        // Grupo de botones de tipo radio
+        RadioGroup radioGroup = (RadioGroup) findViewById(R.id.api_call_type_selection);
         // Se obtiene el boton radio actualmente seleccionado
         this.radioButton = (RadioButton) findViewById(radioGroup.getCheckedRadioButtonId());
 
@@ -37,59 +41,47 @@ public class CreateColumnActivity extends AppCompatActivity {
         boolean createColumn = true;
         createColumn = getIntent().getBooleanExtra("create", createColumn);
 
+
+        AppContainer appContainer = ((MyApplication) this.getApplication()).appContainer;
+        mViewModel = new ViewModelProvider(this, (ViewModelProvider.Factory) appContainer.CCfactory).get(CreateColumnViewModel.class);
+
+        mViewModel.getColumnBeingEdited().observe(this, columna -> {
+            editedColumn = columna;
+            setUIForEditColumn(editedColumn);
+        });
+
         // Si se esta editando una columna, se prepara la IU para cargar los datos
         if (!createColumn){
             long id_columna = 1;
             id_columna = getIntent().getLongExtra("idcolumna", id_columna);
-            setForEditColumn(id_columna);
-        }
+            mViewModel.setColumnBeingEdited(id_columna);
+       }
     }
 
+    // --- Otros métodos ---
 
+    // Cambia la UI para editar una columna
+    public void setUIForEditColumn(Columna c){
+        // Obtencion de todos los inputs de la IU
+        EditText column_name = (EditText) findViewById(R.id.columnName);
+        EditText query_or_user = (EditText) findViewById(R.id.queryOrUser);
+        RadioButton rb_query = (RadioButton) findViewById(R.id.query_selection);
+        RadioButton rb_user = (RadioButton) findViewById(R.id.user_selection);
+        Button b = (Button) findViewById(R.id.create_column_button);
 
-    /* Prepara la IU y la Activity para editar una columna */
-    public void setForEditColumn(long id_carpeta){
+        // Cambiar sus datos a los de la columna
+        column_name.setText(c.getNombre());
+        query_or_user.setText(c.getApiCall());
+        if(c.getApiCallType() == Columna.ApiCallType.QUERY){
+            rb_query.setChecked(true);
+            rb_user.setChecked(false);
+        } else if (c.getApiCallType() == Columna.ApiCallType.USER){
+            rb_query.setChecked(false);
+            rb_user.setChecked(true);
+        }
 
-        AppExecutors.getInstance().diskIO().execute(new Runnable() {
-            @Override
-            public void run() {
-                // Declaracion de la instancia de la BD
-                ParsiDatabase database = ParsiDatabase.getInstance(CreateColumnActivity.this);
-                // Obtencion de la columna y sus datos
-                Columna c = database.getColumnaDao().getColumna(id_carpeta);
-
-                // Se establece la columna que se esta editando actualmente
-                editedColumn = c;
-                editedColumn.setColumnaActual(c.isColumnaActual());
-
-                // Establecer datos de la columna en los inputs
-                AppExecutors.getInstance().mainThread().execute(new Runnable() {
-                    @Override
-                    public void run() {
-                        // Obtencion de todos los inputs de la IU
-                        EditText column_name = (EditText) findViewById(R.id.columnName);
-                        EditText query_or_user = (EditText) findViewById(R.id.queryOrUser);
-                        RadioButton rb_query = (RadioButton) findViewById(R.id.query_selection);
-                        RadioButton rb_user = (RadioButton) findViewById(R.id.user_selection);
-                        Button b = (Button) findViewById(R.id.create_column_button);
-
-                        // Cambiar sus datos a los de la columna
-                        column_name.setText(c.getNombre());
-                        query_or_user.setText(c.getApiCall());
-                        if(c.getApiCallType() == Columna.ApiCallType.QUERY){
-                            rb_query.setChecked(true);
-                            rb_user.setChecked(false);
-                        } else if (c.getApiCallType() == Columna.ApiCallType.USER){
-                            rb_query.setChecked(false);
-                            rb_user.setChecked(true);
-                        }
-
-                        // Se cambia el boton de "Editar" a "Crear"
-                        b.setText("Editar");
-                    }
-                });
-            }
-        });
+        // Se cambia el boton de "Editar" a "Crear"
+        b.setText("Editar");
     }
 
     /* Escucha que boton de radio esta seleccionado actualmente y lo asigna a this.radioButton */
@@ -102,14 +94,11 @@ public class CreateColumnActivity extends AppCompatActivity {
             case R.id.query_selection:
                 if (checked)
                     this.radioButton = (RadioButton) findViewById(R.id.query_selection);
-                break;
+                    break;
             case R.id.user_selection:
                 if (checked)
                     this.radioButton = (RadioButton) findViewById(R.id.user_selection);
-                break;
-            default:
-                Toast.makeText(CreateColumnActivity.this, "Error al seleccionar el tipo de columna", Toast.LENGTH_SHORT).show();
-                break;
+                    break;
         }
     }
 
@@ -150,25 +139,8 @@ public class CreateColumnActivity extends AppCompatActivity {
     public void createColumn(String columnName, String query, Columna.ApiCallType apiCallType){
         Columna c = new Columna(columnName, query);
         c.setApiCallType(apiCallType);
-
-        AppExecutors.getInstance().diskIO().execute(new Runnable() {
-            @Override
-            public void run() {
-                // Declaracion de la instancia de la BD
-                ParsiDatabase database = ParsiDatabase.getInstance(CreateColumnActivity.this);
-
-                Columna oldC = database.getColumnaDao().getColumnaActual();
-                if(oldC != null){
-                    oldC.setColumnaActual(false);
-                    database.getColumnaDao().update(oldC);
-                }
-
-                // Insercion en BD
-                c.setColumnaActual(true);
-                long id = database.getColumnaDao().insert(c);
-                c.setIdDb(id);
-            }
-        });
+        c.setColumnaActual(true);
+        mViewModel.createColumna(c);
     }
 
     /* Edita una columna existente */
@@ -176,15 +148,6 @@ public class CreateColumnActivity extends AppCompatActivity {
         this.editedColumn.setNombre(columnName);
         this.editedColumn.setApiCall(query);
         this.editedColumn.setApiCallType(apiCallType);
-
-        AppExecutors.getInstance().diskIO().execute(new Runnable() {
-            @Override
-            public void run() {
-                // Declaracion de la instancia de la BD
-                ParsiDatabase database = ParsiDatabase.getInstance(CreateColumnActivity.this);
-                // Actualizacion en BD
-                database.getColumnaDao().update(editedColumn);
-            }
-        });
+        mViewModel.editColumna(editedColumn);
     }
 }

@@ -41,6 +41,8 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import es.unex.parsiapp.ui.LoginActivity;
+
 @LargeTest
 @RunWith(AndroidJUnit4.class)
 public class CU14_ConsultarCarpeta_Test {
@@ -488,7 +490,7 @@ public class CU14_ConsultarCarpeta_Test {
         }
 
         onView(withId(R.id.listRecyclerView))
-                .perform(actionOnItemAtPosition(1, CU14_ConsultarCarpeta_Test.MyViewAction.clickChildViewWithId(R.id.cdF)));
+                .perform(actionOnItemAtPosition(1, CU07_EliminarPostCarpeta_Test.MyViewAction.clickChildViewWithId(R.id.cdF)));
 
         try {
             Thread.sleep(1000);

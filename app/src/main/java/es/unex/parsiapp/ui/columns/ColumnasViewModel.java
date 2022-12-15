@@ -1,18 +1,28 @@
 package es.unex.parsiapp.ui.columns;
 
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-public class ColumnasViewModel extends ViewModel {
-    private final MutableLiveData<String> mText;
+import java.util.List;
 
-    public ColumnasViewModel() {
-        mText = new MutableLiveData<>();
-        mText.setValue("This is columnas fragment");
+import es.unex.parsiapp.model.Columna;
+import es.unex.parsiapp.repository.PostRepository;
+
+public class ColumnasViewModel extends ViewModel {
+
+    private final PostRepository mRepository;
+    private final LiveData<List<Columna>> mColumns;
+
+    public ColumnasViewModel(PostRepository repository) {
+        mRepository = repository;
+        mColumns = mRepository.getAllColumnas();
     }
 
-    public LiveData<String> getText() {
-        return mText;
+    public LiveData<List<Columna>> getColumns() {
+        return mColumns;
+    }
+
+    public void setColumnaActual(Columna c){
+        mRepository.setColumnaActual(c);
     }
 }

@@ -4,6 +4,7 @@ import androidx.room.TypeConverter;
 
 import es.unex.parsiapp.model.Columna;
 
+// Conversor para el enumerado "ApiCallType" de columna
 public class ApiCallTypeConverter {
     @TypeConverter
     public static String toString(Columna.ApiCallType apiCallType){

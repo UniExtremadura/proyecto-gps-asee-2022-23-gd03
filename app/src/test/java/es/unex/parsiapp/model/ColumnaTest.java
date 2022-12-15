@@ -6,19 +6,16 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
-import es.unex.parsiapp.model.Columna;
-
 public class ColumnaTest {
 
     @Test
-    public void isColumnaActual() {
+    public void setIdDb() {
         Columna columna = new Columna();
-        columna.setNombre("Columna 1");
-        columna.setColumnaActual(true);
+        long idDbColumna = 5;
+        columna.setIdDb(idDbColumna);
 
-        boolean actual = columna.isColumnaActual();
-
-        assertTrue("La columna no está marcada como la columna actual.", actual);
+        assertEquals("El idDb de la columna no coincide.", columna.getIdDb(), 5);
+        assertNotNull("El idDb de la columna es nulo.", columna.getIdDb());
     }
 
     @Test
@@ -31,38 +28,6 @@ public class ColumnaTest {
 
         assertEquals("El idDb recuperado no coincide.", idDbRecuperado, 5);
         assertNotNull("El idDb recuperado es nulo.", idDbRecuperado);
-    }
-
-    @Test
-    public void getApiCall() {
-        Columna columna = new Columna();
-        columna.setApiCall("Llamada a la API de prueba.");
-
-        String llamadaRecuperada = columna.getApiCall();
-
-        assertEquals("La llamada a la API no coincide.", llamadaRecuperada, "Llamada a la API de prueba.");
-        assertNotNull("La llamada a la API es nula.", llamadaRecuperada);
-    }
-
-    @Test
-    public void getApiCallType() {
-        Columna columna = new Columna();
-        columna.setApiCallType(Columna.ApiCallType.USER);
-
-        Columna.ApiCallType apiCallType = columna.getApiCallType();
-
-        assertEquals("El tipo de la llamada a la API no coincide.", apiCallType, Columna.ApiCallType.USER);
-        assertNotNull("El tipo de la llamada a la API es nula.", apiCallType);
-    }
-
-    @Test
-    public void setIdDb() {
-        Columna columna = new Columna();
-        long idDbColumna = 5;
-        columna.setIdDb(idDbColumna);
-
-        assertEquals("El idDb de la columna no coincide.", columna.getIdDb(), 5);
-        assertNotNull("El idDb de la columna es nulo.", columna.getIdDb());
     }
 
     @Test
@@ -97,6 +62,17 @@ public class ColumnaTest {
     }
 
     @Test
+    public void getApiCall() {
+        Columna columna = new Columna();
+        columna.setApiCall("Llamada a la API de prueba.");
+
+        String llamadaRecuperada = columna.getApiCall();
+
+        assertEquals("La llamada a la API no coincide.", llamadaRecuperada, "Llamada a la API de prueba.");
+        assertNotNull("La llamada a la API es nula.", llamadaRecuperada);
+    }
+
+    @Test
     public void setApiCallType() {
         Columna columna = new Columna();
         columna.setApiCallType(Columna.ApiCallType.USER);
@@ -105,6 +81,18 @@ public class ColumnaTest {
         assertNotNull("El tipo de la llamada a la API es nula.", columna.getApiCallType());
     }
 
+    @Test
+    public void getApiCallType() {
+        Columna columna = new Columna();
+        columna.setApiCallType(Columna.ApiCallType.USER);
+
+        Columna.ApiCallType apiCallType = columna.getApiCallType();
+
+        assertEquals("El tipo de la llamada a la API no coincide.", apiCallType, Columna.ApiCallType.USER);
+        assertNotNull("El tipo de la llamada a la API es nula.", apiCallType);
+    }
+
+    @Test
     public void setColumnaActual() {
         Columna columna = new Columna();
         columna.setNombre("Columna 1");
@@ -113,5 +101,14 @@ public class ColumnaTest {
         assertTrue("La columna no está marcada como la columna actual.", columna.isColumnaActual());
     }
 
+    @Test
+    public void isColumnaActual() {
+        Columna columna = new Columna();
+        columna.setNombre("Columna 1");
+        columna.setColumnaActual(true);
 
+        boolean actual = columna.isColumnaActual();
+
+        assertTrue("La columna no está marcada como la columna actual.", actual);
+    }
 }

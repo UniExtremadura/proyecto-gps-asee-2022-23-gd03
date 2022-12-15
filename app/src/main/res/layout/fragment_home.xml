@@ -21,15 +21,15 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="1.0" />
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
-    <TextView
-        android:id="@+id/addColumn"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/addColunm"
-        android:gravity="center|center_vertical"
-        android:textSize="24sp"
-        android:visibility="visible"
-        android:inputType="text"
-        tools:ignore="MissingConstraints,TextViewEdits">
-    </TextView>
+        <TextView
+            android:id="@+id/addColumn"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="@string/addColunm"
+            android:gravity="center|center_vertical"
+            android:textSize="24sp"
+            android:visibility="visible"
+            android:inputType="text"
+            tools:ignore="MissingConstraints,TextViewEdits">
+        </TextView>
 </androidx.constraintlayout.widget.ConstraintLayout>

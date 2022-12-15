@@ -1,4 +1,4 @@
-package es.unex.parsiapp;
+package es.unex.parsiapp.listadapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -13,19 +13,20 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
+import es.unex.parsiapp.R;
 import es.unex.parsiapp.model.Columna;
 
 public class ListAdapterColumna extends RecyclerView.Adapter<ListAdapterColumna.ViewHolder>{
     private List<Columna> mData;
     private LayoutInflater mInlfater;
     private Context context;
-    final ListAdapterColumna.OnItemClickListener listener;
+    final OnItemClickListener listener;
 
     public interface OnItemClickListener {
         void onItemClick(Columna item);
     }
 
-    public ListAdapterColumna(List<Columna> columnList, Context context, ListAdapterColumna.OnItemClickListener listener){
+    public ListAdapterColumna(List<Columna> columnList, Context context, OnItemClickListener listener){
         this.mInlfater = LayoutInflater.from(context);
         this.context = context;
         this.mData = columnList;
@@ -34,18 +35,29 @@ public class ListAdapterColumna extends RecyclerView.Adapter<ListAdapterColumna.
 
     //Obtiene el numero de columnas que hay en una lista
     @Override
-    public int getItemCount(){ return mData.size();}
+    public int getItemCount(){
+        if (mData != null){
+            return mData.size();
+        } else {
+            return 0;
+        }
+    }
 
     //Establece el diseño que tiene que tener cada columna al mostrarse
     @Override
-    public ListAdapterColumna.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType){
+    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType){
         View view = mInlfater.inflate(R.layout.list_column, null);
-        return new ListAdapterColumna.ViewHolder(view);
+        return new ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull final ListAdapterColumna.ViewHolder holder, final int position) {
+    public void onBindViewHolder(@NonNull final ViewHolder holder, final int position) {
         holder.bindData(mData.get(position));
+    }
+
+    public void swap(List<Columna> dataset){
+        mData = dataset;
+        notifyDataSetChanged();
     }
 
     //Reestablece el contenidode la variable mData, es decir una nueva lista de columna
@@ -76,6 +88,9 @@ public class ListAdapterColumna extends RecyclerView.Adapter<ListAdapterColumna.
             if (item.isColumnaActual()) {
                 ImageView imageView = (ImageView) itemView.findViewById(R.id.iconImageView);
                 imageView.setImageResource(R.drawable.ic_baseline_home_24);
+            } else {
+                ImageView imageView = (ImageView) itemView.findViewById(R.id.iconImageView);
+                imageView.setImageResource(R.drawable.columna_azul);
             }
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override

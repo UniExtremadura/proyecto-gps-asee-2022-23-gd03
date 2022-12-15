@@ -1,4 +1,4 @@
-package es.unex.parsiapp;
+package es.unex.parsiapp.listadapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -15,19 +15,20 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
+import es.unex.parsiapp.R;
 import es.unex.parsiapp.model.Post;
 
 public class ListAdapterPost extends RecyclerView.Adapter<ListAdapterPost.ViewHolder> {
     private List<Post> mData;
     private LayoutInflater mInlfater;
     private Context context;
-    final ListAdapterPost.OnItemClickListener listener;
+    final OnItemClickListener listener;
 
     public interface OnItemClickListener {
         void onItemClick(Post item);
     }
 
-    public ListAdapterPost(List<Post> postList, Context context, ListAdapterPost.OnItemClickListener listener){
+    public ListAdapterPost(List<Post> postList, Context context, OnItemClickListener listener){
         this.mInlfater = LayoutInflater.from(context);
         this.context = context;
         this.mData = postList;
@@ -36,23 +37,33 @@ public class ListAdapterPost extends RecyclerView.Adapter<ListAdapterPost.ViewHo
 
     //Obtiene el numero de post que hay en una lista
     @Override
-    public int getItemCount(){ return mData.size();}
+    public int getItemCount(){
+        if(mData != null){
+            return mData.size();
+        } else {
+            return 0;
+        }
+    }
 
     //Establece el diseño que tiene que tener cada post al mostrarse
     @Override
-    public ListAdapterPost.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType){
+    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType){
         View view = mInlfater.inflate(R.layout.list_tweet, null);
-        return new ListAdapterPost.ViewHolder(view);
+        return new ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull final ListAdapterPost.ViewHolder holder, final int position) {
+    public void onBindViewHolder(@NonNull final ViewHolder holder, final int position) {
         holder.bindData(mData.get(position));
     }
 
     //Reestablece el contenidode la variable mData, es decir una nueva lista de posts
     public void setItems(List<Post> postList) { mData = postList;}
 
+    public void swap(List<Post> dataset){
+        mData = dataset;
+        notifyDataSetChanged();
+    }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         // Elementos de la UI

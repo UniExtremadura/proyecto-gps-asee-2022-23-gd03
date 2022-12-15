@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package es.unex.parsiapp;
+package es.unex.parsiapp.util;
 
 import android.os.Handler;
 import android.os.Looper;

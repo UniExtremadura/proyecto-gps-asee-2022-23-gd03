@@ -37,6 +37,8 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import es.unex.parsiapp.ui.LoginActivity;
+
 @LargeTest
 @RunWith(AndroidJUnit4.class)
 public class CU11_CompartirPost_Test {
@@ -244,7 +246,7 @@ public class CU11_CompartirPost_Test {
         }
 
         onView(withId(R.id.listRecyclerView))
-                .perform(actionOnItemAtPosition(0, CU11_CompartirPost_Test.MyViewAction.clickChildViewWithId(R.id.share)));
+                .perform(actionOnItemAtPosition(0, MyViewAction.clickChildViewWithId(R.id.share)));
 
     }
 

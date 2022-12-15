@@ -9,30 +9,26 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.List;
-
-import es.unex.parsiapp.AppExecutors;
-import es.unex.parsiapp.ListAdapterFolder;
+import es.unex.parsiapp.MyApplication;
 import es.unex.parsiapp.R;
 import es.unex.parsiapp.databinding.FragmentFolderBinding;
-import es.unex.parsiapp.folderContentActivity;
+import es.unex.parsiapp.listadapter.ListAdapterFolder;
 import es.unex.parsiapp.model.Carpeta;
-import es.unex.parsiapp.roomdb.ParsiDatabase;
+import es.unex.parsiapp.ui.FolderContentActivity;
+import es.unex.parsiapp.util.AppContainer;
 
 public class FolderFragment extends Fragment {
 
     private FolderViewModel mViewModel;
     private FragmentFolderBinding binding; // Binding
-    private List<Carpeta> listCarpeta;
-
-    public static FolderFragment newInstance() {
-        return new FolderFragment();
-    }
-
     private View root;
+    private ListAdapterFolder mAdapter;
+
+    // --- Métodos de Callback ---
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
@@ -41,6 +37,20 @@ public class FolderFragment extends Fragment {
         binding = FragmentFolderBinding.inflate(inflater, container, false);
         root = binding.getRoot();
 
+        AppContainer appContainer = ((MyApplication) requireActivity().getApplication()).appContainer;
+        mViewModel = new ViewModelProvider(requireActivity(), (ViewModelProvider.Factory) appContainer.Ffactory).get(FolderViewModel.class);
+
+        mAdapter = new ListAdapterFolder(mViewModel.getFolders().getValue(),root.getContext() , new ListAdapterFolder.OnItemClickListener() {
+            @Override
+            public void onItemClick(Carpeta item) {
+                moveToFolderContent(item, root);
+            }
+        });
+
+        mViewModel.getFolders().observe(getViewLifecycleOwner(), carpetas -> {
+            mAdapter.swap(carpetas);
+        });
+
         showFolders(root);
         return root;
     }
@@ -48,42 +58,21 @@ public class FolderFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        showFolders(root);
     }
 
+    // --- Otros métodos ---
+
+    // Muestra y actualiza las carpetas
     public void showFolders(View root){
-        AppExecutors.getInstance().diskIO().execute(new Runnable() {
-            @Override
-            public void run() {
-                // Declaracion de la instancia de la BD
-                ParsiDatabase database = ParsiDatabase.getInstance(root.getContext());
-
-                listCarpeta = database.getCarpetaDao().getAll();
-
-                if(listCarpeta != null) {
-                    ListAdapterFolder listAdapter = new ListAdapterFolder(listCarpeta,root.getContext() , new ListAdapterFolder.OnItemClickListener() {
-                        @Override
-                        public void onItemClick(Carpeta item) {
-                            moveToFolderContent(item, root);
-                        }
-                    });
-                    // La UI debe de ejecutarse en un mainThread (si no, peta)
-                    AppExecutors.getInstance().mainThread().execute(new Runnable() {
-                        @Override
-                        public void run() {
-                            RecyclerView recyclerView = root.findViewById(R.id.listRecyclerView);
-                            recyclerView.setHasFixedSize(true);
-                            recyclerView.setLayoutManager(new LinearLayoutManager(root.getContext()));
-                            recyclerView.setAdapter(listAdapter);
-                        }
-                    });
-                }
-            }
-        });
+        RecyclerView recyclerView = root.findViewById(R.id.listRecyclerView);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(root.getContext()));
+        recyclerView.setAdapter(mAdapter);
     }
 
+    // Ver los posts guardados en una carpeta
     public void moveToFolderContent(Carpeta item, View root){
-        Intent intent = new Intent(root.getContext(), folderContentActivity.class);
+        Intent intent = new Intent(root.getContext(), FolderContentActivity.class);
         intent.putExtra("folderContent", item);
         startActivity(intent);
     }

@@ -24,7 +24,7 @@ public class Usuario {
         this.password = password;
     }
 
-
+    // --- Métodos get y set ---
     public long getIdDb() {
         return idDb;
     }

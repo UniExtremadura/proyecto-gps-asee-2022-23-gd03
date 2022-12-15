@@ -5,30 +5,7 @@ import static org.junit.Assert.assertNotNull;
 
 import org.junit.Test;
 
-
-
-import es.unex.parsiapp.model.Post;
-
 public class PostTest {
-
-    @Test
-    public void getIdCarpeta() {
-        Post post = new Post(1, "1234", 1);
-        post.setIdCarpeta(5);
-
-        long idCarpetaRecuperado = post.getIdCarpeta();
-
-        assertEquals("El id de la carpeta no coincide.", idCarpetaRecuperado, 5);
-        assertNotNull("El id de la carpeta es nulo.", idCarpetaRecuperado);
-    }
-
-    @Test
-    public void setIdCarpeta() {
-        Post post = new Post(1, "1234", 1);
-        post.setIdCarpeta(5);
-
-        assertEquals("El id de la carpeta no coincide.", post.getIdCarpeta(), 5);
-    }
 
     @Test
     public void setIdDb() {
@@ -70,6 +47,26 @@ public class PostTest {
 
         assertEquals("El id del post no coincide.", idRecuperado, "5");
         assertNotNull("El id del post es nulo.", idRecuperado);
+    }
+
+    @Test
+    public void setIdCarpeta() {
+        Post post = new Post(1, "1234", 1);
+        post.setIdCarpeta(5);
+
+        assertEquals("El id de la carpeta no coincide.", post.getIdCarpeta(), 5);
+        assertNotNull("El id de la carpeta es nulo.", post.getIdCarpeta());
+    }
+
+    @Test
+    public void getIdCarpeta() {
+        Post post = new Post(1, "1234", 1);
+        post.setIdCarpeta(5);
+
+        long idCarpetaRecuperado = post.getIdCarpeta();
+
+        assertEquals("El id de la carpeta no coincide.", idCarpetaRecuperado, 5);
+        assertNotNull("El id de la carpeta es nulo.", idCarpetaRecuperado);
     }
 
     @Test

@@ -11,13 +11,13 @@ import org.junit.Test;
 import java.util.ArrayList;
 import java.util.List;
 
-
-import es.unex.parsiapp.model.Carpeta;
-import es.unex.parsiapp.model.Post;
-
 public class CarpetaTest {
 
     private List<Post> listaPosts;
+
+    @Test
+    public void cambiarNombre() {
+    }
 
     @Test
     public void setNombre() {
@@ -39,27 +39,6 @@ public class CarpetaTest {
 
         assertEquals("El nombre recuperado no coincide.", nombreRecuperado, "Carpeta 1");
         assertNotNull("El nombre recuperado es nulo.", nombreRecuperado);
-    }
-
-    @Test
-    public void setIdDb() {
-        Carpeta carpeta = new Carpeta();
-        long idDbCarpeta = 5;
-        carpeta.setIdDb(idDbCarpeta);
-
-        assertEquals("El idDb de la carpeta no coincide.", carpeta.getIdDb(), 5);
-    }
-
-    @Test
-    public void getIdDb() {
-        Carpeta carpeta = new Carpeta();
-        long idDbCarpeta = 5;
-        carpeta.setIdDb(idDbCarpeta);
-
-        long idDbRecuperado = carpeta.getIdDb();
-
-        assertEquals("El idDb recuperado no coincide.", idDbRecuperado, 5);
-        assertNotNull("El idDb recuperado es nulo.", idDbRecuperado);
     }
 
     @Test
@@ -90,5 +69,31 @@ public class CarpetaTest {
         listaPosts.remove(0);
 
         assertTrue("El tamaño de la lista de posts no es el esperado.", listaPosts.size() == 1);
+    }
+
+    @Test
+    public void getListaPosts() {
+    }
+
+    @Test
+    public void setIdDb() {
+        Carpeta carpeta = new Carpeta();
+        long idDbCarpeta = 5;
+        carpeta.setIdDb(idDbCarpeta);
+
+        assertEquals("El idDb de la carpeta no coincide.", carpeta.getIdDb(), 5);
+        assertNotNull("El idDb de la carpeta es nulo.", carpeta.getIdDb());
+    }
+
+    @Test
+    public void getIdDb() {
+        Carpeta carpeta = new Carpeta();
+        long idDbCarpeta = 5;
+        carpeta.setIdDb(idDbCarpeta);
+
+        long idDbRecuperado = carpeta.getIdDb();
+
+        assertEquals("El idDb recuperado no coincide.", idDbRecuperado, 5);
+        assertNotNull("El idDb recuperado es nulo.", idDbRecuperado);
     }
 }
