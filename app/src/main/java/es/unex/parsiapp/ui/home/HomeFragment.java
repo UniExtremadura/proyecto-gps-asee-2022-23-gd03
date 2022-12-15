@@ -61,6 +61,11 @@ public class HomeFragment extends Fragment {
 
         mRecyclerView = rootV.findViewById(R.id.listRecyclerView);
 
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        String max_posts = sharedPreferences.getString("max_posts", "20");
+
+        mViewModel.setColumna(max_posts);
+
         showTweetsFromColumna(root);
 
         // Refresh
@@ -90,10 +95,6 @@ public class HomeFragment extends Fragment {
 
     // Muestra los tweets realizando una llamada a la API
     public void showTweetsFromColumna(View root){
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
-        String max_posts = sharedPreferences.getString("max_posts", "20");
-
-        mViewModel.setColumna(max_posts);
         if(mAdapter.getItemCount() > 0){
             TextView t = (TextView) root.findViewById(R.id.addColumn);
             t.setVisibility(View.INVISIBLE);
