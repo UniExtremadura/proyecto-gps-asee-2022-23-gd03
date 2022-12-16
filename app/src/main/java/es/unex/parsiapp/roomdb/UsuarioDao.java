@@ -11,10 +11,6 @@ import es.unex.parsiapp.model.Usuario;
 @Dao
 public interface UsuarioDao {
     // SELECT
-    @Query("SELECT * FROM usuario WHERE idDb = :id_usuario")
-    public Usuario getUsuario(long id_usuario);
-    @Query("SELECT * FROM usuario WHERE username = :username_")
-    public Usuario getUsuarioFromUsername(String username_);
     @Query("SELECT * FROM usuario WHERE username = :username_")
     public LiveData<Usuario> getUsuarioFromUsernameLiveData(String username_);
 

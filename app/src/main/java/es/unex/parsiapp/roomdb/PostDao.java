@@ -19,8 +19,6 @@ public interface PostDao {
     public Post getPost(long id_post);
     @Query("SELECT * FROM post WHERE id = :id_post")
     public Post getPostById(String id_post);
-    @Query("SELECT * FROM post")
-    public List<Post> getAll();
     @Query("SELECT * FROM post WHERE carpetaid = -1")
     public LiveData<List<Post>> getAllLiveData();
     @Query("SELECT * FROM post WHERE carpetaid = :carpeta_id")
@@ -33,8 +31,6 @@ public interface PostDao {
     void bulkInsert(List<Post> postList);
 
     // DELETES
-    @Query("DELETE FROM post")
-    public void deleteAll();
     @Query("DELETE FROM post WHERE idDb = :id_post")
     public void delete(long id_post);
     @Query("DELETE FROM post WHERE carpetaid = :carpeta_id")

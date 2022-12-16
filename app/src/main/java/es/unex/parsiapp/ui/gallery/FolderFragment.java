@@ -38,7 +38,7 @@ public class FolderFragment extends Fragment {
         root = binding.getRoot();
 
         AppContainer appContainer = ((MyApplication) requireActivity().getApplication()).appContainer;
-        mViewModel = new ViewModelProvider(requireActivity(), (ViewModelProvider.Factory) appContainer.Ffactory).get(FolderViewModel.class);
+        mViewModel = new ViewModelProvider(requireActivity(), (ViewModelProvider.Factory) appContainer.factory).get(FolderViewModel.class);
 
         mAdapter = new ListAdapterFolder(mViewModel.getFolders().getValue(),root.getContext() , new ListAdapterFolder.OnItemClickListener() {
             @Override

@@ -45,7 +45,7 @@ public class HomeFragment extends Fragment {
         this.rootV = root;
 
         AppContainer appContainer = ((MyApplication) requireActivity().getApplication()).appContainer;
-        mViewModel = new ViewModelProvider(requireActivity(), (ViewModelProvider.Factory) appContainer.Hfactory).get(HomeViewModel.class);
+        mViewModel = new ViewModelProvider(requireActivity(), (ViewModelProvider.Factory) appContainer.factory).get(HomeViewModel.class);
 
         mAdapter = new ListAdapterPost(mViewModel.getPosts().getValue(), rootV.getContext(), new ListAdapterPost.OnItemClickListener() {
             @Override

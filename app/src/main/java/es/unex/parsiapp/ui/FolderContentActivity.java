@@ -40,7 +40,7 @@ public class FolderContentActivity extends AppCompatActivity {
         ParsiDatabase db = ParsiDatabase.getInstance(this);
 
         AppContainer appContainer = ((MyApplication) this.getApplication()).appContainer;
-        mViewModel = new ViewModelProvider(this, (ViewModelProvider.Factory) appContainer.FCfactory).get(FolderContentViewModel.class);
+        mViewModel = new ViewModelProvider(this, (ViewModelProvider.Factory) appContainer.factory).get(FolderContentViewModel.class);
 
         mAdapter = new ListAdapterPostSaved(mViewModel.getPosts().getValue(), FolderContentActivity.this, new ListAdapterPostSaved.OnItemClickListener(){
             @Override

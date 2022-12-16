@@ -30,7 +30,7 @@ public class RegisterActivity extends AppCompatActivity {
         setContentView(R.layout.activity_register);
 
         AppContainer appContainer = ((MyApplication) this.getApplication()).appContainer;
-        mViewModel = new ViewModelProvider(this, (ViewModelProvider.Factory) appContainer.Rfactory).get(RegisterViewModel.class);
+        mViewModel = new ViewModelProvider(this, (ViewModelProvider.Factory) appContainer.factory).get(RegisterViewModel.class);
 
         mViewModel.getUser().observe(this, usuario -> {
             user = usuario;

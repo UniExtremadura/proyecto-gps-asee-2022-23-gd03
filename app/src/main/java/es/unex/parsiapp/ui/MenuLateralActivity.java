@@ -74,7 +74,7 @@ public class MenuLateralActivity extends AppCompatActivity{
         NavigationUI.setupWithNavController(navigationView, navController);
 
         AppContainer appContainer = ((MyApplication) this.getApplication()).appContainer;
-        mViewModel = new ViewModelProvider(this, (ViewModelProvider.Factory) appContainer.MLfactory).get(MenuLateralViewModel.class);
+        mViewModel = new ViewModelProvider(this, (ViewModelProvider.Factory) appContainer.factory).get(MenuLateralViewModel.class);
 
         mViewModel.getCarpetas().observe(this, carpetas -> {
             allFolders = carpetas;

@@ -31,7 +31,7 @@ public class CreateFolderActivity extends AppCompatActivity {
         createFolder = getIntent().getBooleanExtra("create", createFolder);
 
         AppContainer appContainer = ((MyApplication) this.getApplication()).appContainer;
-        mViewModel = new ViewModelProvider(this, (ViewModelProvider.Factory) appContainer.CFfactory).get(CreateFolderViewModel.class);
+        mViewModel = new ViewModelProvider(this, (ViewModelProvider.Factory) appContainer.factory).get(CreateFolderViewModel.class);
 
         mViewModel.getCarpetaBeingEdited().observe(this, carpeta -> {
             editedFolder = carpeta;

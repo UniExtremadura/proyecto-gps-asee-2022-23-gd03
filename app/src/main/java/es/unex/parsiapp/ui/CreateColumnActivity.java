@@ -43,7 +43,7 @@ public class CreateColumnActivity extends AppCompatActivity {
 
 
         AppContainer appContainer = ((MyApplication) this.getApplication()).appContainer;
-        mViewModel = new ViewModelProvider(this, (ViewModelProvider.Factory) appContainer.CCfactory).get(CreateColumnViewModel.class);
+        mViewModel = new ViewModelProvider(this, (ViewModelProvider.Factory) appContainer.factory).get(CreateColumnViewModel.class);
 
         mViewModel.getColumnBeingEdited().observe(this, columna -> {
             editedColumn = columna;

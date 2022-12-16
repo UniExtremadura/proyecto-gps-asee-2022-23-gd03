@@ -39,7 +39,7 @@ public class DeleteActivity extends AppCompatActivity {
         tview = (TextView) findViewById(R.id.delete_textview);
 
         AppContainer appContainer = ((MyApplication) this.getApplication()).appContainer;
-        mViewModel = new ViewModelProvider(this, (ViewModelProvider.Factory) appContainer.Dfactory).get(DeleteViewModel.class);
+        mViewModel = new ViewModelProvider(this, (ViewModelProvider.Factory) appContainer.factory).get(DeleteViewModel.class);
 
         AtomicBoolean alreadyObserved = new AtomicBoolean(false);
 

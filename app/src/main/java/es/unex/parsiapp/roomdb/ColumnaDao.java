@@ -15,8 +15,6 @@ public interface ColumnaDao {
     // SELECT
     @Query("SELECT * FROM columna")
     public List<Columna> getAll();
-    @Query("SELECT * FROM columna WHERE idDb = :columna_id")
-    public Columna getColumna(long columna_id);
     @Query("SELECT * FROM columna WHERE columnaActual = 1")
     public Columna getColumnaActual();
     @Query("SELECT * FROM columna")
@@ -29,8 +27,6 @@ public interface ColumnaDao {
     public long insert(Columna c);
 
     // DELETES
-    @Query("DELETE FROM columna")
-    public void deleteAll();
     @Query("DELETE FROM columna WHERE idDb = :columna_id")
     public void deleteColumnaByID(long columna_id);
 

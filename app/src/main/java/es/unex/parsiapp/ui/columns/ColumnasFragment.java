@@ -34,7 +34,7 @@ public class ColumnasFragment extends Fragment {
         root = binding.getRoot();
 
         AppContainer appContainer = ((MyApplication) requireActivity().getApplication()).appContainer;
-        mViewModel = new ViewModelProvider(requireActivity(), (ViewModelProvider.Factory) appContainer.Cfactory).get(ColumnasViewModel.class);
+        mViewModel = new ViewModelProvider(requireActivity(), (ViewModelProvider.Factory) appContainer.factory).get(ColumnasViewModel.class);
 
         mAdapter = new ListAdapterColumna(mViewModel.getColumns().getValue(), root.getContext(), new ListAdapterColumna.OnItemClickListener() {
             @Override

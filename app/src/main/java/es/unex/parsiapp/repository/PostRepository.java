@@ -29,6 +29,7 @@ public class PostRepository {
     // For Singleton instantiation
     private static PostRepository sInstance;
 
+    // DAOs
     private final PostDao mPostDao;
     private final CarpetaDao mCarpetaDao;
     private final ColumnaDao mColumnaDao;
@@ -93,6 +94,9 @@ public class PostRepository {
         return sInstance;
     }
 
+    /* MÉTODOS RELACIONADOS CON LA OBTENCIÓN DE POSTS */
+
+    // Obtener Posts cuando se cambia la columna actual
     public void setColumna(String max_posts){
         AppExecutors.getInstance().diskIO().execute(new Runnable() {
             @Override
@@ -113,10 +117,12 @@ public class PostRepository {
         });
     }
 
+    // Cambiar la carpeta en la que se está actualmente
     public void setCarpeta(final Carpeta c){
         carpetaFilterLiveData.setValue(c.getIdDb());
     }
 
+    // Cambiar la columna actual
     public void setColumnaActual(Columna c){
         AppExecutors.getInstance().diskIO().execute(new Runnable() {
             @Override
@@ -132,6 +138,52 @@ public class PostRepository {
         });
     }
 
+    // Guardar un Post en una carpeta
+    public void insertPost(Post pOld, long folder_id){
+        Post p = new Post(pOld.getId(), folder_id);
+        p.setContenido(pOld.getContenido());
+        p.setTimestamp(pOld.getTimestamp());
+        p.setAuthorUsername(pOld.getAuthorUsername());
+        p.setProfilePicture(pOld.getProfilePicture());
+        p.setAuthorId(pOld.getAuthorId());
+        mPostDao.insert(p);
+    }
+
+    // Buscar nuevos Posts en base a una columna
+    public void doFetchPosts(Columna c, String max_posts){
+        Log.d(LOG_TAG, "Fetching posts from API");
+        System.out.println("Fetching posts from API");
+        AppExecutors.getInstance().diskIO().execute(() -> {
+            mPostDao.deleteAllPostsWithoutCarpeta();
+            mPostNetworkDataSource.fetchPosts(c, max_posts);
+            lastUpdateTimeMillisMap.put(c.getApiCall(), System.currentTimeMillis());
+        });
+    }
+
+    // Obtener Posts de la pantalla de Inicio
+    public LiveData<List<Post>> getCurrentPostsHome() {
+        System.out.println("OBTENIENDO TODOS LOS POSTS DE HOME (POST REPOSITORY)");
+        return Transformations.switchMap(columnaFilterLiveData, new Function<Columna, LiveData<List<Post>>>() {
+            @Override
+            public LiveData<List<Post>> apply(Columna input) {
+                return mPostDao.getAllLiveData();
+            }
+        });
+    }
+
+    // Obtener Posts de una carpeta
+    public LiveData<List<Post>> getCurrentPostsFolder() {
+        return Transformations.switchMap(carpetaFilterLiveData, new Function<Long, LiveData<List<Post>>>() {
+            @Override
+            public LiveData<List<Post>> apply(Long input) {
+                System.out.println("OBTENIENDO TODOS LOS POSTS DE UNA CARPETA (POST REPOSITORY)");
+                return mPostDao.getAllPostsFromCarpetaLiveData(input);
+            }
+        });
+    }
+
+    /* OPERACIONES CON COLUMNAS */
+
     public void setColumnBeingEdited(long id_columna){
         columnaBeingEditedFilterLiveData.setValue(id_columna);
     }
@@ -145,19 +197,6 @@ public class PostRepository {
        });
     }
 
-    public void setCarpetaBeingEdited(long id_carpeta){
-        carpetaBeingEditedFilterLiveData.setValue(id_carpeta);
-    }
-
-    public LiveData<Carpeta> getCarpetaBeingEdited(){
-        return Transformations.switchMap(carpetaBeingEditedFilterLiveData, new Function<Long, LiveData<Carpeta>>() {
-            @Override
-            public LiveData<Carpeta> apply(Long input) {
-                return mCarpetaDao.getFolderLiveData(input);
-            }
-        });
-    }
-
     public void setColumnaToDelete(long id_columna){
         columnaToDeleteFilterLiveData.setValue(id_columna);
     }
@@ -169,96 +208,6 @@ public class PostRepository {
                 return mColumnaDao.getColumnaLiveData(input);
             }
         });
-    }
-
-    public void setCarpetaToDelete(long id_carpeta){
-        carpetaToDeleteFilterLiveData.setValue(id_carpeta);
-    }
-
-    public LiveData<Carpeta> getCarpetaToDelete(){
-        return Transformations.switchMap(carpetaToDeleteFilterLiveData, new Function<Long, LiveData<Carpeta>>() {
-            @Override
-            public LiveData<Carpeta> apply(Long input) {
-                return mCarpetaDao.getFolderLiveData(input);
-            }
-        });
-    }
-
-    public void setUser(String username){
-        userFilterLiveData.setValue(username);
-    }
-
-    public LiveData<Usuario> getUser(){
-        return Transformations.switchMap(userFilterLiveData, new Function<String, LiveData<Usuario>>() {
-            @Override
-            public LiveData<Usuario> apply(String input) {
-                return mUsuarioDao.getUsuarioFromUsernameLiveData(input);
-            }
-        });
-    }
-
-    public void savePost(long post_id, long folder_id){
-        AppExecutors.getInstance().diskIO().execute(new Runnable() {
-            @Override
-            public void run() {
-                Post pOld = mPostDao.getPost(post_id);
-                insertPost(pOld, folder_id);
-            }
-        });
-    }
-
-    public void savePostDetails(String post_id, long folder_id){
-        AppExecutors.getInstance().diskIO().execute(new Runnable() {
-            @Override
-            public void run() {
-                Post pOld = mPostDao.getPostById(post_id);
-                insertPost(pOld, folder_id);
-            }
-        });
-    }
-
-    public void insertPost(Post pOld, long folder_id){
-        Post p = new Post(pOld.getId(), folder_id);
-        p.setContenido(pOld.getContenido());
-        p.setTimestamp(pOld.getTimestamp());
-        p.setAuthorUsername(pOld.getAuthorUsername());
-        p.setProfilePicture(pOld.getProfilePicture());
-        p.setAuthorId(pOld.getAuthorId());
-        mPostDao.insert(p);
-    }
-
-    public void doFetchPosts(Columna c, String max_posts){
-        Log.d(LOG_TAG, "Fetching posts from API");
-        System.out.println("Fetching posts from API");
-        AppExecutors.getInstance().diskIO().execute(() -> {
-            mPostDao.deleteAllPostsWithoutCarpeta();
-            mPostNetworkDataSource.fetchPosts(c, max_posts);
-            lastUpdateTimeMillisMap.put(c.getApiCall(), System.currentTimeMillis());
-        });
-    }
-
-    public LiveData<List<Post>> getCurrentPostsHome() {
-        System.out.println("OBTENIENDO TODOS LOS POSTS DE HOME (POST REPOSITORY)");
-        return Transformations.switchMap(columnaFilterLiveData, new Function<Columna, LiveData<List<Post>>>() {
-            @Override
-            public LiveData<List<Post>> apply(Columna input) {
-                return mPostDao.getAllLiveData();
-            }
-        });
-    }
-
-    public LiveData<List<Post>> getCurrentPostsFolder() {
-        return Transformations.switchMap(carpetaFilterLiveData, new Function<Long, LiveData<List<Post>>>() {
-            @Override
-            public LiveData<List<Post>> apply(Long input) {
-                System.out.println("OBTENIENDO TODOS LOS POSTS DE UNA CARPETA (POST REPOSITORY)");
-                return mPostDao.getAllPostsFromCarpetaLiveData(input);
-            }
-        });
-    }
-
-    public LiveData<List<Carpeta>> getAllFolders(){
-        return carpetaList;
     }
 
     public LiveData<List<Columna>> getAllColumnas(){
@@ -306,6 +255,38 @@ public class PostRepository {
         });
     }
 
+    /* OPERACIONES CON CARPETAS */
+
+    public void setCarpetaBeingEdited(long id_carpeta){
+        carpetaBeingEditedFilterLiveData.setValue(id_carpeta);
+    }
+
+    public LiveData<Carpeta> getCarpetaBeingEdited(){
+        return Transformations.switchMap(carpetaBeingEditedFilterLiveData, new Function<Long, LiveData<Carpeta>>() {
+            @Override
+            public LiveData<Carpeta> apply(Long input) {
+                return mCarpetaDao.getFolderLiveData(input);
+            }
+        });
+    }
+
+    public void setCarpetaToDelete(long id_carpeta){
+        carpetaToDeleteFilterLiveData.setValue(id_carpeta);
+    }
+
+    public LiveData<Carpeta> getCarpetaToDelete(){
+        return Transformations.switchMap(carpetaToDeleteFilterLiveData, new Function<Long, LiveData<Carpeta>>() {
+            @Override
+            public LiveData<Carpeta> apply(Long input) {
+                return mCarpetaDao.getFolderLiveData(input);
+            }
+        });
+    }
+
+    public LiveData<List<Carpeta>> getAllFolders(){
+        return carpetaList;
+    }
+
     public void createFolder(Carpeta c){
         AppExecutors.getInstance().diskIO().execute(new Runnable() {
             @Override
@@ -334,6 +315,21 @@ public class PostRepository {
         });
     }
 
+    /* OPERACIONES CON USUARIO */
+
+    public void setUser(String username){
+        userFilterLiveData.setValue(username);
+    }
+
+    public LiveData<Usuario> getUser(){
+        return Transformations.switchMap(userFilterLiveData, new Function<String, LiveData<Usuario>>() {
+            @Override
+            public LiveData<Usuario> apply(String input) {
+                return mUsuarioDao.getUsuarioFromUsernameLiveData(input);
+            }
+        });
+    }
+
     public void createUser(Usuario u){
         AppExecutors.getInstance().diskIO().execute(new Runnable() {
             @Override
@@ -342,6 +338,30 @@ public class PostRepository {
             }
         });
     }
+
+    /* GUARDADO DE POSTS */
+
+    public void savePost(long post_id, long folder_id){
+        AppExecutors.getInstance().diskIO().execute(new Runnable() {
+            @Override
+            public void run() {
+                Post pOld = mPostDao.getPost(post_id);
+                insertPost(pOld, folder_id);
+            }
+        });
+    }
+
+    public void savePostDetails(String post_id, long folder_id){
+        AppExecutors.getInstance().diskIO().execute(new Runnable() {
+            @Override
+            public void run() {
+                Post pOld = mPostDao.getPostById(post_id);
+                insertPost(pOld, folder_id);
+            }
+        });
+    }
+
+    /* COOLDOWN DE REFRESCAR POSTS */
 
     private boolean isFetchNeeded(Columna c){
         Long lastFetchTimeMillis = lastUpdateTimeMillisMap.get(c.getApiCall());

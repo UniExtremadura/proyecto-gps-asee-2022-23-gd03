@@ -64,7 +64,7 @@ public class TweetDetailsActivity extends AppCompatActivity {
         save.setTag(R.string.idSave, item.getId());
 
         AppContainer appContainer = ((MyApplication) this.getApplication()).appContainer;
-        mViewModel = new ViewModelProvider(this, (ViewModelProvider.Factory) appContainer.TDfactory).get(TweetDetailsViewModel.class);
+        mViewModel = new ViewModelProvider(this, (ViewModelProvider.Factory) appContainer.factory).get(TweetDetailsViewModel.class);
 
         mViewModel.getCarpetas().observe(this, carpetas -> {
             allFolders = carpetas;
